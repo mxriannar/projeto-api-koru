@@ -82,11 +82,48 @@ def create_reuniao():
     return jsonify(reuniao.to_dict())
 
 # Atualizar um líder
+@app.route("/lideres/<int:id_lider>", methods=["PUT"])
+def update_lider(id_lider):
+    data = request.get_json()
+    lider = Lider.get_by_id(id_lider, db.connect())
+    if lider:
+        lider.nome = data["nome"]
+        lider.departamento = data["departamento"]
+        lider.save(db.connect())
+        return jsonify(lider.to_dict())
+    else:
+        return jsonify({"error": "Líder não localizado"}), 404
 
 # Atualizar um colaborador
+@app.route("/colaboradores/<int:id_colaborador>", methods=["PUT"])
+def update_colaborador(id_colaborador):
+    data = request.get_json()
+    colaborador = Colaborador.get_by_id(id_colaborador, db.connect())
+    if colaborador:
+        colaborador.nome = data["nome"]
+        colaborador.departamento = data["departamento"]
+        colaborador.save(db.connect())
+        return jsonify(colaborador.to_dict())
+    else:
+        return jsonify({"error": "Colaborador não localizado"}), 404
 
 # Atualizar uma reunião
-
+@app.route("/reunioes/<int:id_reuniao>", methods=["PUT"])
+def update_reuniao(id_reuniao):
+    data = request.get_json()
+    reuniao = Reuniao.get_by_id(id_reuniao, db.connect())
+    if reuniao:
+        lider = Lider.get_by_id(data["id_lider"], db.connect())
+        colaborador = Colaborador.get_by_id(data["id_colaborador"], db.connect())
+        data_reuniao = datetime.fromisoformat(data["data"])
+        reuniao.lider = lider
+        reuniao.colaborador = colaborador
+        reuniao.data = data_reuniao
+        reuniao.save(db.connect())
+        return jsonify(reuniao.to_dict())
+    else:
+        return jsonify({"error": "Reunião não localizada"}), 404
+    
 # Remover um líder
 
 # Remover um colaborador
