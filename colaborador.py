@@ -25,6 +25,12 @@ class Colaborador:
             cursor.execute(query, (self.nome, self.departamento, self.id))
         db_connection.commit()
 
+    def delete(self, db:sqlite3.Connection):
+        query = "DELETE FROM colaboradores WHERE id_colaborador = ?"
+        cursor = db.cursor()
+        cursor.execute(query, (self.id, ))
+        cursor.commit()
+
     @staticmethod
     def get_by_id(id, db:sqlite3.Connection):
         query = "SELECT * FROM colaboradores WHERE id_colaborador = ?"

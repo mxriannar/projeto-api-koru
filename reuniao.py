@@ -31,6 +31,12 @@ class Reuniao:
             cursor.execute(query, (self.lider.id, self.colaborador.id, self.data, self.id))
         db_connection.commit()
 
+    def delete(self, db:sqlite3.Connection):
+        query = "DELETE FROM reunioes WHERE id_reuniao = ?"
+        cursor = db.cursor()
+        cursor.execute(query, (self.id, ))
+        cursor.commit()
+
     @staticmethod
     def get_by_id(id, db:sqlite3.Connection):
         query = "SELECT * FROM reunioes WHERE id_reuniao = ?"

@@ -25,6 +25,12 @@ class Lider:
         db_connection.commit()
         db_connection.close()
 
+    def delete(self, db:sqlite3.Connection):
+        query = "DELETE FROM lideres WHERE id_lider = ?"
+        cursor = db.cursor()
+        cursor.execute(query, (self.id, ))
+        cursor.commit()
+        
     @staticmethod
     def get_by_id(id:int, db:sqlite3.Connection):
         query = "SELECT * FROM lideres WHERE id_lider = ?"
@@ -44,3 +50,4 @@ class Lider:
         for result in results:
             lideres.append(Lider(id = result[0], nome = result[1], departamento = result[2]).to_dict())
         return lideres
+    
