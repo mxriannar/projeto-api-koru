@@ -29,7 +29,7 @@ class Lider:
         query = "DELETE FROM lideres WHERE id_lider = ?"
         cursor = db.cursor()
         cursor.execute(query, (self.id, ))
-        cursor.commit()
+        db.commit()
         
     @staticmethod
     def get_by_id(id:int, db:sqlite3.Connection):

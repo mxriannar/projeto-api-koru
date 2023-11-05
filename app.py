@@ -125,9 +125,33 @@ def update_reuniao(id_reuniao):
         return jsonify({"error": "Reunião não localizada"}), 404
     
 # Remover um líder
-
+@app.route("/lideres/<int:id_lider>", methods=["DELETE"])
+def delete_lider(id_lider):
+    lider = Lider.get_by_id(id_lider, db.connect())
+    if lider:
+        lider.delete(db.connect())
+        return '', 204
+    else:
+        return jsonify({"error": "Líder não localizado"}), 404
+    
 # Remover um colaborador
-
+@app.route("/colaboradores/<int:id_colaborador>", methods=["DELETE"])
+def delete_colaborador(id_colaborador):
+    colaborador = Colaborador.get_by_id(id_colaborador, db.connect())
+    if colaborador:
+        colaborador.delete(db.connect())
+        return '', 204
+    else:
+        return jsonify({"error": "Colaborador não localizado"}), 404
+    
 # Remover uma reunião
-
+@app.route("/reunioes/<int:id_reuniao>", methods=["DELETE"])
+def delete_reuniao(id_reuniao):
+    reuniao = Reuniao.get_by_id(id_reuniao, db.connect())
+    if reuniao:
+        reuniao.delete(db.connect())
+        return '', 204
+    else:
+        return jsonify({"error": "Reunião não localizada"}), 404
+    
 app.run(debug=True)
