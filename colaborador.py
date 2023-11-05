@@ -3,3 +3,10 @@ class Colaborador:
         self.id = id
         self.nome = nome
         self.departamento = departamento
+
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "nome": self.nome,
+            "departamento": self.departamento
+        }

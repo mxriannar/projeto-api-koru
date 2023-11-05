@@ -7,3 +7,13 @@ class Reuniao:
         self.lider = lider
         self.colaborador = colaborador
         self.data = data
+
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "id_lider": self.lider.id,
+            "lider": self.lider.to_dict(),
+            "id_colaborador": self.colaborador.id,
+            "colaborador": self.colaborador.to_dict(),
+            "data": self.data
+        }
