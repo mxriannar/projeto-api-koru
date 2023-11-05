@@ -24,3 +24,23 @@ class Lider:
             db_connection.execute(query, (self.nome, self.departamento, self.id))
         db_connection.commit()
         db_connection.close()
+
+    @staticmethod
+    def get_by_id(id:int, db:sqlite3.Connection):
+        query = "SELECT * FROM lideres WHERE id_lider = ?"
+        cursor = db.cursor()
+        result = cursor.execute(query, (id, )).fetchone()
+        if result:
+            return Lider(id = result[0], nome = result[1], departamento = result[2])
+        else:
+            return None
+        
+    @staticmethod
+    def get_all(db:sqlite3.Connection):
+        query = "SELECT * FROM lideres"
+        cursor = db.cursor()
+        results = cursor.execute(query).fetchall()
+        lideres = []
+        for result in results:
+            lideres.append(Lider(id = result[0], nome = result[1], departamento = result[2]).to_dict())
+        return lideres

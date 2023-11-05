@@ -30,3 +30,26 @@ class Reuniao:
             cursor = db_connection.cursor()
             cursor.execute(query, (self.lider.id, self.colaborador.id, self.data, self.id))
         db_connection.commit()
+
+    @staticmethod
+    def get_by_id(id, db:sqlite3.Connection):
+        query = "SELECT * FROM reunioes WHERE id_reuniao = ?"
+        cursor = db.cursor()
+        result = cursor.execute(query, (id, )).fetchone()
+        if result:
+            lider = Lider.get_by_id(result[1], db)
+            colaborador = Colaborador.get_by_id(result[2], db)
+            return Reuniao(id = result[0], lider = lider, colaborador = colaborador, data = result[3])
+        return None
+    
+    @staticmethod
+    def get_all(db:sqlite3.Connection):
+        query = "SELECT * FROM reunioes"
+        cursor = db.cursor()
+        results = cursor.execute(query).fetchall()
+        reunioes = []
+        for result in results:
+            lider = Lider.get_by_id(result[1], db)
+            colaborador = Colaborador.get_by_id(result[2], db)
+            reunioes.append(Reuniao(id = result[0], lider = lider, colaborador = colaborador, data = result[3]).to_dict())
+        return reunioes
