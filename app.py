@@ -115,7 +115,7 @@ def update_reuniao(id_reuniao):
     if reuniao:
         lider = Lider.get_by_id(data["id_lider"], db.connect())
         colaborador = Colaborador.get_by_id(data["id_colaborador"], db.connect())
-        data_reuniao = datetime.fromisoformat(data["data"])
+        data_reuniao = datetime.fromisoformat(data["data_reuniao"])
         reuniao.lider = lider
         reuniao.colaborador = colaborador
         reuniao.data = data_reuniao
