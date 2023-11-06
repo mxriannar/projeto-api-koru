@@ -1,6 +1,5 @@
 # projeto-api-koru
-<<<<<<< HEAD
-Projeto API com banco de dados, módulo back-end Escola Korú.
+Projeto API com banco de dados, CRUD e Flask, módulo de back-end da Escola Korú.
 
 # endpoints
 
@@ -57,6 +56,4 @@ Os seguintes endpoints estão configurados:
     "data_reuniao": "data_reuniao"
 }
 ```
-=======
-Projeto API com banco de dados, CRUD e Flask, módulo de back-end da Escola Korú.
->>>>>>> 3d7b82dec99eaa462fe159fc37ea9d08d8e4f778
+
