@@ -52,8 +52,8 @@ Os seguintes endpoints estão configurados:
 ```
 {
 	"id_lider": id_lider,
-    "id_colaborador": id_colaborador,
-    "data_reuniao": "data_reuniao"
+    	"id_colaborador": id_colaborador,
+    	"data_reuniao": "data_reuniao"
 }
 ```
 
