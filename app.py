@@ -1,4 +1,5 @@
 from flask import Flask, request, jsonify
+from flask_cors import CORS
 from lider import Lider
 from colaborador import Colaborador
 from reuniao import Reuniao
@@ -6,6 +7,7 @@ from db_connector import DBConnector
 from datetime import datetime
 
 app = Flask(__name__)
+CORS(app)
 
 db = DBConnector("feedback.db")
 
