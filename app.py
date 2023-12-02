@@ -60,7 +60,7 @@ def get_reuniao(id_reuniao):
 @app.route("/lideres", methods=["POST"])
 def create_lider():
     data = request.get_json()
-    lider = Lider(nome = data["nome"], departamento = data["departamento"])
+    lider = Lider(nome = data["nome"], departamento = data["departamento"], email = data["email"])
     lider.save(db.connect())
     return jsonify(lider.to_dict())
 
@@ -91,6 +91,7 @@ def update_lider(id_lider):
     if lider:
         lider.nome = data["nome"]
         lider.departamento = data["departamento"]
+        lider.email = data["email"]
         lider.save(db.connect())
         return jsonify(lider.to_dict())
     else:
