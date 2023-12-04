@@ -1,4 +1,5 @@
 from flask import Flask, request, jsonify
+from flask_jwt_extended import JWTManager, create_access_token, jwt_required, get_jwt_identity
 from flask_cors import CORS
 from lider import Lider
 from colaborador import Colaborador
@@ -56,11 +57,11 @@ def get_reuniao(id_reuniao):
     else:
         return jsonify({"error": "Reunião não localizada"}), 404
 
-# Criar um líder
+# Criar um líder (cria um lider com o atributo ativo = 1)
 @app.route("/lideres", methods=["POST"])
 def create_lider():
     data = request.get_json()
-    lider = Lider(nome = data["nome"], departamento = data["departamento"], email = data["email"])
+    lider = Lider(nome = data["nome"], departamento = data["departamento"], email = data["email"], password = data["password"], ativo = "1")
     lider.save(db.connect())
     return jsonify(lider.to_dict())
 
@@ -92,10 +93,31 @@ def update_lider(id_lider):
         lider.nome = data["nome"]
         lider.departamento = data["departamento"]
         lider.email = data["email"]
+        lider.password = data["password"]
+        lider.ativo = data["ativo"]
         lider.save(db.connect())
         return jsonify(lider.to_dict())
     else:
         return jsonify({"error": "Líder não localizado"}), 404
+    
+from flask import request, jsonify
+
+# atualizar uma propriedade de um usuário
+@app.route("/lideres/<int:id_lider>/<string:propriedade>", methods=["PUT"])
+def update_lider_property(id_lider, propriedade):
+    data = request.get_json()
+    lider = Lider.get_by_id(id_lider, db.connect())
+
+    if lider:
+        if propriedade in ["nome", "departamento", "email", "password", "ativo"]:
+            setattr(lider, propriedade, data[propriedade])
+            lider.save(db.connect())
+            return jsonify(lider.to_dict())
+        else:
+            return jsonify({"error": f"Propriedade {propriedade} inválida"}), 400
+    else:
+        return jsonify({"error": "Líder não localizado"}), 404
+
 
 # Atualizar um colaborador
 @app.route("/colaboradores/<int:id_colaborador>", methods=["PUT"])
