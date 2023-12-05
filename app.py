@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify
+from flask import Flask, render_template, request, jsonify
 from lider import Lider
 from colaborador import Colaborador
 from reuniao import Reuniao
@@ -8,6 +8,10 @@ from datetime import datetime
 app = Flask(__name__)
 
 db = DBConnector("feedback.db")
+
+@app.route("/")
+def home():
+    return render_template("index.html")
 
 # Retornar todos os líderes
 @app.route("/lideres", methods=["GET"])
