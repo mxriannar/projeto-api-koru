@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Connect - Sua plataforma de 1:1</title>
+    <link rel="shortcut icon" href="./static/image/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/remixicon@3.6.0/fonts/remixicon.css" >
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/reset.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css')}}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/listagem.css') }}">
+</head>
+
+<body>
+    <nav class="navigation">
+        <ul class="sidebar">
+            <li onclick=hideSidebar()>
+                <a href="#">
+                    <i class="ri-close-line"></i>
+                </a>
+            </li>
+            <li>
+                <a href="/login.html">Login</a>
+            </li>
+            <li>
+                <a href="/lider.html">Líder</a>
+            </li>
+            <li>
+                <a href="#">Colaborador</a>
+            </li>
+            <li>
+                <a href="#">Reunião</a>
+            </li>
+        </ul>
+        <ul>
+            <li>
+                <a class="logo" href="/">Connect</a>
+            </li>
+            <li class="hideOnMobile">
+                <a href="/login.html">Login</a>
+            </li>
+            <li class="hideOnMobile">
+                <a href="/lider.html">Líder</a>
+            </li>
+            <li class="hideOnMobile">
+                <a href="#">Colaborador</a>
+            </li>
+            <li class="hideOnMobile">
+                <a href="#">Reunião</a>
+            </li>
+            <li class="menu-button" onclick=showSidebar()>
+                <a href="#">
+                    <i class="ri-menu-fill"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <div class="container">
+        {% block content %}
+
+        {% endblock %}
+    </div>
+
+    <script src="{{ url_for('static',  filename='js/index.js') }}"></script>
+</body>
+
+</html>

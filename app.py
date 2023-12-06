@@ -7,9 +7,13 @@ from db_connector import DBConnector
 from datetime import datetime
 
 app = Flask(__name__)
-CORS(app)
+# CORS(app)
 
 db = DBConnector("feedback.db")
+
+@app.route("/")
+def home():
+    return render_template("reuniao.html")
 
 # Retornar todos os líderes
 @app.route("/lideres", methods=["GET"])
