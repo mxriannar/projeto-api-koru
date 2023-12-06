@@ -211,7 +211,7 @@ table td {
     }
 
     h1 {
-        font-size: 2rem;
+        font-size: 1.8rem;
     }
 
     table thead tr {
@@ -251,6 +251,6 @@ table td {
     }
 
     .popup {
-        width: 300px;
+        width: 80%;
     }
 }
