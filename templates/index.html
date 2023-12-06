@@ -10,10 +10,11 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/reset.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css')}}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/listagem.css') }}">
 </head>
 
 <body>
-    <nav>
+    <nav class="navigation">
         <ul class="sidebar">
             <li onclick=hideSidebar()>
                 <a href="#">
@@ -24,13 +25,13 @@
                 <a href="/login.html">Login</a>
             </li>
             <li>
-                <a href="/leaders.html">Líder</a>
+                <a href="/lider.html">Líder</a>
             </li>
             <li>
-                <a href="/collaborators.html">Colaborador</a>
+                <a href="#">Colaborador</a>
             </li>
             <li>
-                <a href="/meetings.html">Reunião</a>
+                <a href="#">Reunião</a>
             </li>
         </ul>
         <ul>
@@ -41,13 +42,13 @@
                 <a href="/login.html">Login</a>
             </li>
             <li class="hideOnMobile">
-                <a href="/leaders.html">Líder</a>
+                <a href="/lider.html">Líder</a>
             </li>
             <li class="hideOnMobile">
-                <a href="/collaborators.html">Colaborador</a>
+                <a href="#">Colaborador</a>
             </li>
             <li class="hideOnMobile">
-                <a href="/meetings.html">Reunião</a>
+                <a href="#">Reunião</a>
             </li>
             <li class="menu-button" onclick=showSidebar()>
                 <a href="#">
