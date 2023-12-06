@@ -195,7 +195,7 @@ table td {
 @media (max-width: 426px) {
     .container {
         width: 100%;
-        margin: 50px auto 20px;
+        margin-bottom: 40px;
     }
 
     .card {
@@ -236,6 +236,7 @@ table td {
     table td::before {
         content: attr(data-title);
         float: left;
+        font-weight: 700;
     }
 
     tbody tr:nth-child(even) {
