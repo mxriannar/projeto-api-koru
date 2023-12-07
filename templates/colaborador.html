@@ -57,6 +57,22 @@
     <button class="btn-danger">Deletar</button>
 </div>
 
+<div class="alert alert-reg">
+    <i class="ri-checkbox-circle-fill"></i>
+    <span class="reg-msg msg">Cadastrado com sucesso!</span>
+    <span class="close-btn close-btn-reg">
+        <i class="ri-close-line"></i>
+    </span>
+</div>
+
+<div class="alert alert-del">
+    <i class="ri-checkbox-circle-fill"></i>
+    <span class="del-msg msg">Deletado com sucesso!</span>
+    <span class="close-btn close-btn-del">
+        <i class="ri-close-line"></i>
+    </span>
+</div>
+
 <script src="{{ url_for('static', filename='js/listagem.js')}}"></script>
 
 {% endblock %}

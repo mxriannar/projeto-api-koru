@@ -1,0 +1,135 @@
+/* Notificação de alerta CADASTRADO */
+.alert {
+    padding: 20px 40px;
+    min-width: 400px;
+    position: absolute;
+    right: 0px;
+    top: 70px;
+    overflow: hidden;
+    border-radius: 4px;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.ri-checkbox-circle-fill {
+    position: absolute;
+    left: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 3rem;
+}
+
+.alert .msg {
+    padding: 0 20px;
+    font-size: 1.8rem;
+}
+
+.alert .close-btn {
+    position: absolute;
+    right: 0px;
+    top: 50%;
+    transform: translateY(-50%);
+    padding: 20px 18px;
+    cursor: pointer;
+}
+
+.ri-close-line {
+    font-size: 3rem;
+    line-height: 40px;
+}
+
+/* Notificação Cadastrado */
+
+.alert-reg {
+    background: #c5f3d7;
+    border-left: 8px solid #2cd772;
+}
+
+.alert-reg .ri-checkbox-circle-fill,
+.alert-reg .reg-msg,
+.alert-reg .ri-close-line {
+    color: #2ba763;
+}
+
+.alert-reg .close-btn-reg {
+    background-color: #94eab9;
+}
+
+.alert-reg .close-btn-reg:hover {
+    background-color: #73eeb3;
+}
+
+
+/* Notificação Deletado */
+.alert-del {
+    background: #d7f0fd;
+    border-left: 8px solid #70c7ff;
+}
+
+.alert-del .ri-checkbox-circle-fill,
+.alert-del .reg-msg,
+.alert-del .ri-close-line {
+    color: #3bb8ff;
+}
+
+.alert-del .close-btn-del {
+    background-color: #99d7fe;
+}
+
+.alert-del .close-btn-del:hover {
+    background-color: #87d0fd;
+}
+
+/* Show/hide alert */
+
+.alert-reg.showAlert,
+.alert-del.showAlert {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.alert-reg.show,
+.alert-del.show {
+    animation: show_slide 1s ease forwards;
+}
+
+@keyframes show_slide {
+    0% {
+        transform: translateX(100%);
+    }
+
+    40% {
+        transform: translateX(-10%);
+    }
+
+    80% {
+        transform: translateX(0%);
+    }
+
+    100% {
+        transform: translateX(-10px);
+    }
+}
+
+.alert-reg.hide,
+.alert-del.hide {
+    animation: hide_slide 1s ease forwards;
+}
+
+@keyframes hide_slide {
+    0% {
+        transform: translateX(-10px);
+    }
+
+    40% {
+        transform: translateX(0%);
+    }
+
+    80% {
+        transform: translateX(-10%);
+    }
+
+    100% {
+        transform: translateX(100%);
+    }
+}

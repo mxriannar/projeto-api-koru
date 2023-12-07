@@ -54,7 +54,7 @@ table td {
     text-align: center;
 }
 
-.table-sortable th { 
+.table-sortable th {
     cursor: pointer;
 }
 
@@ -141,6 +141,8 @@ table td {
     color: #ff0000;
 }
 
+/* Popup de alerta para deletar */
+
 .popup {
     width: 400px;
     background: #fff;
@@ -211,6 +213,8 @@ table td {
 .popup .btn-danger:hover {
     opacity: 60%;
 }
+
+/* Responsividade */
 
 @media (max-width: 800px) {
     .container {
