@@ -4,7 +4,7 @@
     <div class="card">
         <section class="table__header">
             <div class="title">
-                <h1>Reunião</h1>
+                <h1>Líder</h1>
                 <button class="btn" title="Criar">
                     <i class="ri-add-circle-fill"></i>
                 </button>
@@ -20,29 +20,14 @@
                 <thead>
                     <tr>
                         <th>ID</th>
-                        <th>Líder</th>
-                        <th>Colaborador</th>
-                        <th>Data</th>
+                        <th>Nome</th>
+                        <th>Setor</th>
+                        <th>E-mail</th>
                         <th colspan="2">Ações</th>
                     </tr>
                 </thead>
-                <tbody>
-                    <tr>
-                        <td data-title="ID">{{ id }}</td>
-                        <td data-title="Nome">{{ nome_lider }}</td>
-                        <td data-title="Setor">{{ nome_colaborador }}</td>
-                        <td data-title="E-mail">{{ data }}</td>
-                        <td>
-                            <button class="btn" type="submit" title="Editar">
-                                <i class="ri-edit-2-fill"></i>
-                            </button>
-                        </td>
-                        <td>
-                            <button class="btn" type="submit" title="Deletar" onclick="openPopup()">
-                                <i class="ri-delete-bin-2-fill"></i>
-                            </button>
-                        </td>
-                    </tr>
+                <tbody id="tbody">
+
                 </tbody>
             </table>
         </section>
@@ -52,10 +37,16 @@
 <div class="popup" id="popup">
     <img src="{{url_for('static', filename='image/exclamation.png')}}" alt="">
     <h2>Cuidado!</h2>
-    <p>Tem certeza que deseja deletar esse colaborador?</p>
+    <p>Tem certeza que deseja deletar esse líder?</p>
     <button class="btn-primary" type="button" onclick="closePopup()">Cancelar</button>
-    <button class="btn-danger">Deletar</button>
+    <button class="btn-danger" type="button" onclick="deletar()">Deletar</button>
 </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        listar()
+    })
+</script>
 
 <script src="{{ url_for('static', filename='js/listagem.js')}}"></script>
 
