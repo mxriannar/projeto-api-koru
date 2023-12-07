@@ -1,19 +1,74 @@
-{% extends 'index.html' %}
-{% block content %}
-<div class="container" id="blur">
-    <div class="card">
-       <h1>Login</h1>        
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Connect | Login</title>
+    <link rel="icon" type="image/png" sizes="16x16" href="/src/images/favicon-16x16.png">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.6.0/fonts/remixicon.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/login.css')}}">
+</head>
+
+<body>
+    <div class="container">
+        <div class="design">
+            <div class="pill-1 rotate-45"></div>
+            <div class="pill-2 rotate-45"></div>
+            <div class="pill-3 rotate-45"></div>
+            <div class="pill-4 rotate-45"></div>
+        </div>
+        <div class="login">
+            <h3 class="title">Login</h3>
+            <div class="text-input">
+                <i class="ri-user-fill"></i>
+                <input type="text" placeholder="Username">
+            </div>
+            <div class="text-input">
+                <i class="ri-lock-fill"></i>
+                <input type="password" placeholder="Password">
+            </div>
+            <button class="login-btn">Sign In</button>
+            <a onclick=showForgot() href="#" class="forgot">Forgot Password?</a>
+            <div class="create">
+                <a onclick=showCreate() class="btn" href="#">Sign Up</a>
+                <i class="ri-arrow-right-fill"></i>
+            </div>
+        </div>
+        <div class="new-account">
+            <h3 class="title">Create Account</h3>
+            <div class="text-input">
+                <i class="ri-user-fill"></i>
+                <input type="text" placeholder="Username">
+            </div>
+            <div class="text-input">
+                <i class="ri-mail-fill"></i>
+                <input type="text" placeholder="Email">
+            </div>
+            <div class="text-input">
+                <i class="ri-lock-fill"></i>
+                <input type="password" placeholder="Password">
+            </div>
+            <button class="login-btn">Sign Up</button>
+            <div class="create">
+                <a onclick=showLogin() class="btn" href="#">Sign In</a>
+                <i class="ri-arrow-right-fill"></i>
+            </div>
+        </div>
+        <div class="forgot-password">
+            <h3 class="title">Reset Password</h3>
+            <div class="text-input">
+                <i class="ri-mail-fill"></i>
+                <input type="text" placeholder="Email">
+            </div>
+            <button class="login-btn">Reset Password</button>
+            <div class="create">
+                <a onclick=showLogin() class="btn" href="#">Sign In</a>
+                <i class="ri-arrow-right-fill"></i>
+            </div>
+        </div>
     </div>
-</div>
+    <script src="{{url_for('static', filename='js/login.js')}}"></script>
+</body>
 
-<div class="popup" id="popup">
-    <img src="{{url_for('static', filename='image/exclamation.png')}}" alt="">
-    <h2>Cuidado!</h2>
-    <p>Tem certeza que deseja deletar esse líder?</p>
-    <button class="btn-primary" type="button" onclick="closePopup()">Cancelar</button>
-    <button class="btn-danger">Deletar</button>
-</div>
-
-<script src="{{ url_for('static', filename='js/listagem.js')}}"></script>
-
-{% endblock %}
+</html>
