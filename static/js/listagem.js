@@ -1,7 +1,8 @@
-// Popup botão cancelar
 let popup = document.getElementById('popup');
 let blur = document.getElementById('blur');
+let popForm = document.getElementById('wrapper');
 
+// Popup botão cancelar
 function openPopup() {
     popup.classList.add('open-popup');
     blur.classList.add('active');
@@ -9,6 +10,17 @@ function openPopup() {
 
 function closePopup() {
     popup.classList.remove('open-popup');
+    blur.classList.remove('active');
+}
+
+// Popup formulário
+function openForm() {
+    popForm.classList.add('open-wrapper');
+    blur.classList.add('active');
+}
+
+function closeForm() {
+    popForm.classList.remove('open-wrapper');
     blur.classList.remove('active');
 }
 
@@ -107,4 +119,19 @@ $('.btn-danger').click(function () {
 $('.close-btn-del').click(function () {
     $('.alert-del').removeClass("show");
     $('.alert-del').addClass("hide");
+});
+
+// Notificação de alerta CADASTRADO OU EDITADO
+$('.btn-save').click(function () {
+    $('.alert-reg').addClass("show");
+    $('.alert-reg').removeClass("hide");
+    $('.alert-reg').addClass("showAlert");
+    setTimeout(function () {
+        $('.alert-reg').removeClass("show");
+        $('.alert-reg').addClass("hide");
+    }, 5000);
+});
+$('.close-btn-del').click(function () {
+    $('.alert-reg').removeClass("show");
+    $('.alert-reg').addClass("hide");
 });

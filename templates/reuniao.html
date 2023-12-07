@@ -5,7 +5,7 @@
         <section class="table__header">
             <div class="title">
                 <h1>Reunião</h1>
-                <button class="btn" title="Criar">
+                <button class="btn" title="Criar" onclick="openForm()">
                     <i class="ri-add-circle-fill"></i>
                 </button>
             </div>
@@ -48,6 +48,36 @@
         </section>
     </div>
 </div>
+
+<div class="wrapper" id="wrapper">
+    <form action="">
+        <i class="ri-close-line"></i>
+        <h2 class="title">Criar ou editar</h2>
+
+        <div class="text-input">
+            <label for="id">ID</label>
+            <input type="text" name="id" id="id" placeholder="Informe o ID">
+        </div>
+        <div class="text-input">
+            <label for="name">Nome</label>
+            <input type="text" name="name" id="name" placeholder="Informe o nome" required>
+        </div>
+        <div class="text-input">
+            <label for="departamento">Setor</label>
+            <input class="departamento" type="text" id="departamento" placeholder="Informe o departamento" required>
+        </div>
+        <div class="text-input">
+            <label for="email">E-mail</label>
+            <input class="email" type="text" id="email" placeholder="Informe o e-mail" required>
+        </div>
+
+        <div class="buttons">
+            <button type="submit" class="btn-save">Salvar</button>
+            <button class="btn-primary" onclick="closeForm()">Cancelar</button>
+        </div>
+    </form>
+</div>
+
 
 <div class="popup" id="popup">
     <img src="{{url_for('static', filename='image/exclamation.png')}}" alt="">
