@@ -14,7 +14,7 @@ db = DBConnector("feedback.db")
 
 @app.route("/")
 def home():
-    return render_template("lider.html")
+    return render_template("index.html")
 
 # Retornar todos os líderes
 @app.route("/lideres", methods=["GET"])
