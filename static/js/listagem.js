@@ -134,10 +134,11 @@ function listar() {
 
 function deletar() {
     const id = idDelete
-    console.log(id)
     const dados = { ativo: 0 }
     deleteLeader(id, dados)
         .then(() => {
+            window.location.reload()
+
         })
         .catch((erro) => {
             console.log(erro)
