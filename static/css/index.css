@@ -1,8 +1,18 @@
 @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600&display=swap');
 
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 nav {
     background-color: var(--white);
     box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.1);
+    top: 0;
+    left: 0;
+    position: fixed;
+    width: 100%;
 }
 
 nav ul {
