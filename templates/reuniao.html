@@ -5,18 +5,19 @@
         <section class="table__header">
             <div class="title">
                 <h1>Reunião</h1>
-                <button class="btn" title="Criar">
-                    <i class="ri-add-circle-fill"></i>
-                </button>
+                <button class="btn" title="Criar" onclick="openForm()">
+                    <button class="btn btn-criar" title="Criar" onclick="openForm()" id="criar">
+                        <i class="ri-add-circle-fill"></i>
+                    </button>
             </div>
 
             <div class="input-group">
-                <input type="search" name="" id="" placeholder="Pesquisar...">
+                <input type="search" name="search" id="search" placeholder="Pesquisar..." onkeyup="filterTable()">
                 <i class="ri-search-line"></i>
             </div>
         </section>
         <section class="table__body">
-            <table>
+            <table class="table-sortable" id="table-sortable">
                 <thead>
                     <tr>
                         <th>ID</th>
@@ -34,8 +35,9 @@
                         <td data-title="E-mail">{{ data }}</td>
                         <td>
                             <button class="btn" type="submit" title="Editar">
-                                <i class="ri-edit-2-fill"></i>
-                            </button>
+                                <button class="btn" type="submit" title="Editar" onclick="openForm()" id="editar">
+                                    <i class="ri-edit-2-fill"></i>
+                                </button>
                         </td>
                         <td>
                             <button class="btn" type="submit" title="Deletar" onclick="openPopup()">
@@ -49,12 +51,69 @@
     </div>
 </div>
 
+<div class="wrapper" id="wrapper">
+    <form action="">
+        <i class="ri-close-line"></i>
+        <h2 class="title">Criar ou editar</h2>
+        <h2 class="title" id="title-form"></h2>
+
+        <div class="text-input">
+            <label for="id">ID</label>
+            <input type="text" name="id" id="id" placeholder="Informe o ID">
+            <label for="id_reuniao">ID</label>
+            <input type="text" name="id_reuniao" id="id_reuniao" placeholder="Informe o ID">
+        </div>
+        <div class="text-input">
+            <label for="name">Nome</label>
+            <input type="text" name="name" id="name" placeholder="Informe o nome" required>
+            <label for="id_lider">Líder</label>
+            <input type="text" name="id_lider" id="id_lider" placeholder="Informe o ID do líder" required>
+        </div>
+        <div class="text-input">
+            <label for="departamento">Setor</label>
+            <input class="departamento" type="text" id="departamento" placeholder="Informe o departamento" required>
+            <label for="id_colaborador">Colaborador</label>
+            <input type="text" name="id_colaborador" id="id_colaborador" placeholder="Informe o ID do colaborador"
+                required>
+        </div>
+        <div class="text-input">
+            <label for="email">E-mail</label>
+            <input class="email" type="text" id="email" placeholder="Informe o e-mail" required>
+            <label for="data">Data</label>
+            <input class="data" type="text" id="data" placeholder="Informe a data" required>
+        </div>
+
+        <div class="buttons">
+            <button type="submit" class="btn-save">Salvar</button>
+            <button class="btn-primary" onclick="closeForm()">Cancelar</button>
+        </div>
+    </form>
+</div>
+
+
 <div class="popup" id="popup">
     <img src="{{url_for('static', filename='image/exclamation.png')}}" alt="">
     <h2>Cuidado!</h2>
-    <p>Tem certeza que deseja deletar esse colaborador?</p>
+    <p>Tem certeza que deseja deletar essa reunião?</p>
     <button class="btn-primary" type="button" onclick="closePopup()">Cancelar</button>
     <button class="btn-danger">Deletar</button>
+</div>
+
+<div class="alert alert-reg">
+    <i class="ri-checkbox-circle-fill"></i>
+    <span class="reg-msg msg">Cadastrado com sucesso!</span>
+    <span class="reg-msg msg">Salvo com sucesso!</span>
+    <span class="close-btn close-btn-reg">
+        <i class="ri-close-line"></i>
+    </span>
+</div>
+
+<div class="alert alert-del">
+    <i class="ri-checkbox-circle-fill"></i>
+    <span class="del-msg msg">Deletado com sucesso!</span>
+    <span class="close-btn close-btn-del">
+        <i class="ri-close-line"></i>
+    </span>
 </div>
 
 <script src="{{ url_for('static', filename='js/listagem.js')}}"></script>
