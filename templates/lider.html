@@ -4,34 +4,34 @@
     <div class="card">
         <section class="table__header">
             <div class="title">
-                <h1>Líder</h1>
+                <h1>Reunião</h1>
                 <button class="btn" title="Criar">
                     <i class="ri-add-circle-fill"></i>
                 </button>
             </div>
 
             <div class="input-group">
-                <input type="search" name="" id="" placeholder="Pesquisar...">
+                <input type="search" name="search" id="search" placeholder="Pesquisar..." onkeyup="filterTable()">
                 <i class="ri-search-line"></i>
             </div>
         </section>
         <section class="table__body">
-            <table>
+            <table class="table-sortable" id="table-sortable">
                 <thead>
                     <tr>
                         <th>ID</th>
-                        <th>Nome</th>
-                        <th>Setor</th>
-                        <th>E-mail</th>
+                        <th>Líder</th>
+                        <th>Colaborador</th>
+                        <th>Data</th>
                         <th colspan="2">Ações</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
                         <td data-title="ID">{{ id }}</td>
-                        <td data-title="Nome">{{ nome }}</td>
-                        <td data-title="Setor">{{ departamento }}</td>
-                        <td data-title="E-mail">{{ email }}</td>
+                        <td data-title="Nome">{{ nome_lider }}</td>
+                        <td data-title="Setor">{{ nome_colaborador }}</td>
+                        <td data-title="E-mail">{{ data }}</td>
                         <td>
                             <button class="btn" type="submit" title="Editar">
                                 <i class="ri-edit-2-fill"></i>
@@ -52,7 +52,7 @@
 <div class="popup" id="popup">
     <img src="{{url_for('static', filename='image/exclamation.png')}}" alt="">
     <h2>Cuidado!</h2>
-    <p>Tem certeza que deseja deletar esse líder?</p>
+    <p>Tem certeza que deseja deletar esse colaborador?</p>
     <button class="btn-primary" type="button" onclick="closePopup()">Cancelar</button>
     <button class="btn-danger">Deletar</button>
 </div>
