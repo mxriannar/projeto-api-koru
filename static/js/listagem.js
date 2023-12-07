@@ -1,6 +1,8 @@
 let popup = document.getElementById('popup');
 let blur = document.getElementById('blur');
 let popForm = document.getElementById('wrapper');
+let editar = document.getElementById('editar')
+let criar = document.getElementById('criar')
 
 // Popup botão cancelar
 function openPopup() {
@@ -22,6 +24,15 @@ function openForm() {
 function closeForm() {
     popForm.classList.remove('open-wrapper');
     blur.classList.remove('active');
+}
+
+criar.onclick = function () {
+    document.getElementById("title-form").innerText = "Criar";
+    openForm();
+}
+editar.onclick = function () {
+    document.getElementById("title-form").innerText = "Editar";
+    openForm();
 }
 
 // Filtro de pesquisa

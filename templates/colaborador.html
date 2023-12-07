@@ -5,7 +5,7 @@
         <section class="table__header">
             <div class="title">
                 <h1>Colaborador</h1>
-                <button class="btn" title="Criar" onclick="openForm()">
+                <button class="btn" title="Criar" onclick="openForm()" id="criar">
                     <i class="ri-add-circle-fill"></i>
                 </button>
             </div>
@@ -33,7 +33,7 @@
                         <td data-title="Setor">{{ departamento }}</td>
                         <td data-title="E-mail">{{ email }}</td>
                         <td>
-                            <button class="btn" type="submit" title="Editar">
+                            <button class="btn" type="submit" title="Editar" onclick="openForm()" id="editar">
                                 <i class="ri-edit-2-fill"></i>
                             </button>
                         </td>
@@ -51,8 +51,7 @@
 
 <div class="wrapper" id="wrapper">
     <form action="">
-        <i class="ri-close-line"></i>
-        <h2 class="title">Criar ou editar</h2>
+        <h2 class="title" id="title-form"></h2>
 
         <div class="text-input">
             <label for="id">ID</label>
@@ -88,7 +87,7 @@
 
 <div class="alert alert-reg">
     <i class="ri-checkbox-circle-fill"></i>
-    <span class="reg-msg msg">Cadastrado com sucesso!</span>
+    <span class="reg-msg msg">Salvo com sucesso!</span>
     <span class="close-btn close-btn-reg">
         <i class="ri-close-line"></i>
     </span>
