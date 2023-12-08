@@ -1,5 +1,6 @@
 
 const tbody = document.getElementById('tbody')
+const formColaborador = document.getElementById('formColaborador')
 
 let popup = document.getElementById('popup');
 let blur = document.getElementById('blur');
@@ -8,6 +9,7 @@ let criar = document.getElementById('criar')
 
 // Popup botão cancelar
 function openPopup(id) {
+    idDelete = id
     popup.classList.add('open-popup');
     blur.classList.add('active');
 }
@@ -173,11 +175,27 @@ function deletar() {
     deleteCollaborator(id, dados)
         .then(() => {
             window.location.reload()
-
         })
         .catch((erro) => {
             console.log(erro)
         })
+}
+
+function criarColaborador() {
+    formColaborador.addEventListener('submit', (e) => {
+        e.preventDefault()
+        const fd = new FormData(formColaborador)
+        const dadosFormulario = Object.fromEntries(fd)
+        console.log(dadosFormulario)
+
+        postCollaborator(dadosFormulario)
+            .then(() => {
+            })
+            .catch((erro) => {
+                console.log(erro)
+            })
+
+    })
 }
 
 
@@ -216,28 +234,21 @@ const postCollaborator = async (dados) => {
     return await resposta.json()
 }
 
-const deleteCollaborator = async (id) => {
-    const url = urlBase + `colaboradores/${id}`
+const deleteCollaborator = async (id, dados) => {
+    const url = urlBase + `colaboradores/${id}/ativo`
 
-    try {
-        const resposta = await fetch(url, {
-            method: 'DELETE',
-            body: JSON.stringify({ id }),
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        })
-
-        // Verifica se a exclusão foi bem-sucedida (status 200 OK)
-        if (!resposta.ok) {
-            throw new Error(`Erro ao excluir colaborador: ${resposta.statusText}`)
-        }
-
-        return resposta // Retorna a resposta diretamente, sem analisar o JSON
-    } catch (erro) {
-        console.error('Ocorreu um erro ao excluir colaborador:', erro)
-        throw erro // Propagar o erro para quem chamou essa função, se necessário
+    const resposta = await fetch(url, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(dados)
+    })
+    if (!resposta.dados) {
+        throw new Error(`Erro ao excluir colaborador: ${resposta.statusText}`)
     }
+
+    return resposta.json()
 }
 
 // Notificação de alerta DELETADO
