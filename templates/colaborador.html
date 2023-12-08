@@ -5,7 +5,7 @@
         <section class="table__header">
             <div class="title">
                 <h1>Colaborador</h1>
-                <button class="btn" title="Criar">
+                <button class="btn" title="Criar" onclick="openForm()" id="criar">
                     <i class="ri-add-circle-fill"></i>
                 </button>
             </div>
@@ -26,27 +26,39 @@
                         <th colspan="2">Ações</th>
                     </tr>
                 </thead>
-                <tbody>
-                    <tr>
-                        <td data-title="ID">{{ id }}</td>
-                        <td data-title="Nome">{{ nome }}</td>
-                        <td data-title="Setor">{{ departamento }}</td>
-                        <td data-title="E-mail">{{ email }}</td>
-                        <td>
-                            <button class="btn" type="submit" title="Editar">
-                                <i class="ri-edit-2-fill"></i>
-                            </button>
-                        </td>
-                        <td>
-                            <button class="btn" type="submit" title="Deletar" onclick="openPopup()">
-                                <i class="ri-delete-bin-2-fill"></i>
-                            </button>
-                        </td>
-                    </tr>
+                <tbody id="tbody">
                 </tbody>
             </table>
         </section>
     </div>
+</div>
+
+<div class="wrapper" id="wrapper">
+    <form action="">
+        <h2 class="title" id="title-form"></h2>
+
+        <div class="text-input">
+            <label for="id">ID</label>
+            <input type="text" name="id" id="id" placeholder="Informe o ID">
+        </div>
+        <div class="text-input">
+            <label for="name">Nome</label>
+            <input type="text" name="name" id="name" placeholder="Informe o nome" required>
+        </div>
+        <div class="text-input">
+            <label for="departamento">Setor</label>
+            <input class="departamento" type="text" id="departamento" placeholder="Informe o departamento" required>
+        </div>
+        <div class="text-input">
+            <label for="email">E-mail</label>
+            <input class="email" type="text" id="email" placeholder="Informe o e-mail" required>
+        </div>
+
+        <div class="buttons">
+            <button type="submit" class="btn-save">Salvar</button>
+            <button class="btn-primary" onclick="closeForm()">Cancelar</button>
+        </div>
+    </form>
 </div>
 
 <div class="popup" id="popup">
@@ -57,6 +69,22 @@
     <button class="btn-danger">Deletar</button>
 </div>
 
-<script src="{{ url_for('static', filename='js/listagem.js')}}"></script>
+<div class="alert alert-reg">
+    <i class="ri-checkbox-circle-fill"></i>
+    <span class="reg-msg msg">Salvo com sucesso!</span>
+    <span class="close-btn close-btn-reg">
+        <i class="ri-close-line"></i>
+    </span>
+</div>
+
+<div class="alert alert-del">
+    <i class="ri-checkbox-circle-fill"></i>
+    <span class="del-msg msg">Deletado com sucesso!</span>
+    <span class="close-btn close-btn-del">
+        <i class="ri-close-line"></i>
+    </span>
+</div>
+
+<script src="{{ url_for('static', filename='js/colaborador.js')}}"></script>
 
 {% endblock %}
