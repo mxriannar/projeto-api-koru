@@ -49,7 +49,7 @@ class Lider:
         
     @staticmethod
     def get_all(db:sqlite3.Connection):
-        query = "SELECT * FROM lideres"
+        query = "SELECT * FROM lideres WHERE ativo_lider = 1"
         cursor = db.cursor()
         results = cursor.execute(query).fetchall()
         lideres = []

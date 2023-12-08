@@ -143,6 +143,7 @@ function listar() {
                 tbody.appendChild(tr)
             })
             
+            // TODO: arrumar função pois não está alterando o título
             editar.onclick = function () {
                 document.getElementById("title-form").innerText = "Editar"
                 openForm()
@@ -268,6 +269,7 @@ const editarLider = async (id, dadosAtualizados) => {
     return resposta.json()
 }
 
+// TODO: arrumar tempo de atualização da página para mostrar a notificação
 // Notificação de alerta DELETADO
 $('.btn-danger').click(function () {
     $('.alert-del').addClass("show");

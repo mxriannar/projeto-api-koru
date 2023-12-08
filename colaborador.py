@@ -39,7 +39,7 @@ class Colaborador:
 
     @staticmethod
     def get_by_id(id, db:sqlite3.Connection):
-        query = "SELECT * FROM colaboradores WHERE id_colaborador = ?"
+        query = "SELECT * FROM colaboradores WHERE id_colaborador = ? AND ativo_colaborador = 1"
         cursor = db.cursor()
         result = cursor.execute(query, (id, )).fetchone()
         if result:
@@ -48,7 +48,7 @@ class Colaborador:
     
     @staticmethod
     def get_all(db:sqlite3.Connection):
-        query = "SELECT * FROM colaboradores"
+        query = "SELECT * FROM colaboradores WHERE ativo_colaborador = 1"
         cursor = db.cursor()
         results = cursor.execute(query).fetchall()
         colaboradores = []
