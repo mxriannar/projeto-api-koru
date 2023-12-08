@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify
+from flask import Flask, render_template, request, jsonify
 from flask_cors import CORS
 from lider import Lider
 from colaborador import Colaborador
@@ -7,13 +7,30 @@ from db_connector import DBConnector
 from datetime import datetime
 
 app = Flask(__name__)
-# CORS(app)
+CORS(app)
 
 db = DBConnector("feedback.db")
 
 @app.route("/")
 def home():
     return render_template("index.html")
+
+@app.route("/login")
+def login():
+    return render_template("login.html")
+
+@app.route("/lider")
+def lider():
+    return render_template("lider.html")
+
+@app.route("/colaborador")
+def colaborador():
+    return render_template("colaborador.html")
+
+@app.route("/reuniao")
+def reuniao():
+    return render_template("reuniao.html")
+
 
 # Retornar todos os líderes
 @app.route("/lideres", methods=["GET"])
