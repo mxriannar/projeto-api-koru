@@ -18,7 +18,7 @@ html {
 
 body {
     font-size: 1.6rem;
-    min-height: 100vh;
+    height: 100vh;
     background-image: var(--background-color);
     background-size: cover;
     background-repeat: no-repeat;

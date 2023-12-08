@@ -5,10 +5,9 @@
         <section class="table__header">
             <div class="title">
                 <h1>Reunião</h1>
-                <button class="btn" title="Criar" onclick="openForm()">
-                    <button class="btn btn-criar" title="Criar" onclick="openForm()" id="criar">
-                        <i class="ri-add-circle-fill"></i>
-                    </button>
+                <button class="btn btn-criar" title="Criar" onclick="openForm()" id="criar">
+                    <i class="ri-add-circle-fill"></i>
+                </button>
             </div>
 
             <div class="input-group">
@@ -34,10 +33,9 @@
                         <td data-title="Setor">{{ nome_colaborador }}</td>
                         <td data-title="E-mail">{{ data }}</td>
                         <td>
-                            <button class="btn" type="submit" title="Editar">
-                                <button class="btn" type="submit" title="Editar" onclick="openForm()" id="editar">
-                                    <i class="ri-edit-2-fill"></i>
-                                </button>
+                            <button class="btn" type="submit" title="Editar" onclick="openForm()" id="editar">
+                                <i class="ri-edit-2-fill"></i>
+                            </button>
                         </td>
                         <td>
                             <button class="btn" type="submit" title="Deletar" onclick="openPopup()">
@@ -53,32 +51,21 @@
 
 <div class="wrapper" id="wrapper">
     <form action="">
-        <i class="ri-close-line"></i>
-        <h2 class="title">Criar ou editar</h2>
         <h2 class="title" id="title-form"></h2>
 
         <div class="text-input">
-            <label for="id">ID</label>
-            <input type="text" name="id" id="id" placeholder="Informe o ID">
             <label for="id_reuniao">ID</label>
             <input type="text" name="id_reuniao" id="id_reuniao" placeholder="Informe o ID">
         </div>
         <div class="text-input">
-            <label for="name">Nome</label>
-            <input type="text" name="name" id="name" placeholder="Informe o nome" required>
             <label for="id_lider">Líder</label>
             <input type="text" name="id_lider" id="id_lider" placeholder="Informe o ID do líder" required>
         </div>
         <div class="text-input">
-            <label for="departamento">Setor</label>
-            <input class="departamento" type="text" id="departamento" placeholder="Informe o departamento" required>
             <label for="id_colaborador">Colaborador</label>
-            <input type="text" name="id_colaborador" id="id_colaborador" placeholder="Informe o ID do colaborador"
-                required>
+            <input type="text" name="id_colaborador" id="id_colaborador" placeholder="Informe o ID do colaborador" required>
         </div>
         <div class="text-input">
-            <label for="email">E-mail</label>
-            <input class="email" type="text" id="email" placeholder="Informe o e-mail" required>
             <label for="data">Data</label>
             <input class="data" type="text" id="data" placeholder="Informe a data" required>
         </div>
@@ -101,7 +88,6 @@
 
 <div class="alert alert-reg">
     <i class="ri-checkbox-circle-fill"></i>
-    <span class="reg-msg msg">Cadastrado com sucesso!</span>
     <span class="reg-msg msg">Salvo com sucesso!</span>
     <span class="close-btn close-btn-reg">
         <i class="ri-close-line"></i>

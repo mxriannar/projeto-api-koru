@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 
 // Popup botão cancelar
 let popup = document.getElementById('popup');
@@ -7,6 +8,16 @@ const tbody = document.getElementById('tbody')
 
 function openPopup(id) {
     idDelete = id
+=======
+let popup = document.getElementById('popup');
+let blur = document.getElementById('blur');
+let popForm = document.getElementById('wrapper');
+let editar = document.getElementById('editar')
+let criar = document.getElementById('criar')
+
+// Popup botão cancelar
+function openPopup() {
+>>>>>>> marianna
     popup.classList.add('open-popup');
     blur.classList.add('active');
 }
@@ -16,6 +27,29 @@ function closePopup() {
     blur.classList.remove('active');
 }
 
+<<<<<<< HEAD
+=======
+// Popup formulário
+function openForm() {
+    popForm.classList.add('open-wrapper');
+    blur.classList.add('active');
+}
+
+function closeForm() {
+    popForm.classList.remove('open-wrapper');
+    blur.classList.remove('active');
+}
+
+criar.onclick = function () {
+    document.getElementById("title-form").innerText = "Criar";
+    openForm();
+}
+editar.onclick = function () {
+    document.getElementById("title-form").innerText = "Editar";
+    openForm();
+}
+
+>>>>>>> marianna
 // Filtro de pesquisa
 function filterTable() {
     let input = document.getElementById("search"),
@@ -52,6 +86,7 @@ function filterTable() {
     }
 }
 
+<<<<<<< HEAD
 // / Ordenar crescente e decrescente
 /**
  * Sorts a HTML table
@@ -59,6 +94,14 @@ function filterTable() {
  * @param {HTMLTableElement} table The table to sort
  * @param {number} column The index of the column to sort
  * @param {boolean} asc Determines if the sorting will be in ascending order
+=======
+/**
+ * Tabela HTML em ordem crescente ou decrescente
+ * 
+ * @param {HTMLTableElement} table Qual tabela será ordenada
+ * @param {number} column O index da coluna que será ordenada
+ * @param {boolean} asc Determina a ordem em crescente ou decrescente 
+>>>>>>> marianna
  */
 
 function sortTableByColumn(table, column, asc = true) {
@@ -66,7 +109,11 @@ function sortTableByColumn(table, column, asc = true) {
     const tBody = table.tBodies[0];
     const rows_table = Array.from(tBody.querySelectorAll('tr'));
     debugger
+<<<<<<< HEAD
     // Sort each row
+=======
+    // Ordenada cada linha 
+>>>>>>> marianna
     const sortedRows = rows_table.sort((a, b) => {
         debugger
         const aColText = a.querySelector(`td:nth-child(${column + 1})`).textContent.trim();
@@ -75,15 +122,26 @@ function sortTableByColumn(table, column, asc = true) {
         return aColText > bColText ? (1 * dirModifier) : (-1 * dirModifier);
     })
 
+<<<<<<< HEAD
     // Remove all existing TRs from the table 
+=======
+    // Remove todos os TRs existentes da tabela 
+>>>>>>> marianna
     while (tBody.firstChild) {
         tBody.removeChild(tBody.firstChild);
     }
 
+<<<<<<< HEAD
     // Re-add the newly sorted rows
     tBody.append(...sortedRows);
 
     // Remember how the column is currently sorted
+=======
+    // Adiciona novamente as linhas recém-ordenadas
+    tBody.append(...sortedRows);
+
+    // Guarda a ordenação atual da coluna
+>>>>>>> marianna
     table.querySelectorAll('th').forEach(th => th.classList.remove('th-sort-asc', 'th-sort-desc'));
     table.querySelector(`th:nth-child(${column + 1})`).classList.toggle('th-sort-asc', asc);
     table.querySelector(`th:nth-child(${column + 1})`).classList.toggle('th-sort-desc', !asc);
@@ -99,6 +157,7 @@ document.querySelectorAll('.table-sortable th').forEach(headerCell => {
     })
 })
 
+<<<<<<< HEAD
 function listar() {
     getLeaders()
         .then((data) => {
@@ -232,3 +291,34 @@ const editarLider = async (id, dadosAtualizados) => {
 
     return resposta.json()
 }
+=======
+// Notificação de alerta DELETADO
+$('.btn-danger').click(function () {
+    $('.alert-del').addClass("show");
+    $('.alert-del').removeClass("hide");
+    $('.alert-del').addClass("showAlert");
+    setTimeout(function () {
+        $('.alert-del').removeClass("show");
+        $('.alert-del').addClass("hide");
+    }, 5000);
+});
+$('.close-btn-del').click(function () {
+    $('.alert-del').removeClass("show");
+    $('.alert-del').addClass("hide");
+});
+
+// Notificação de alerta CADASTRADO OU EDITADO
+$('.btn-save').click(function () {
+    $('.alert-reg').addClass("show");
+    $('.alert-reg').removeClass("hide");
+    $('.alert-reg').addClass("showAlert");
+    setTimeout(function () {
+        $('.alert-reg').removeClass("show");
+        $('.alert-reg').addClass("hide");
+    }, 5000);
+});
+$('.close-btn-del').click(function () {
+    $('.alert-reg').removeClass("show");
+    $('.alert-reg').addClass("hide");
+});
+>>>>>>> marianna
