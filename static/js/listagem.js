@@ -1,23 +1,13 @@
-<<<<<<< HEAD
-
-// Popup botão cancelar
-let popup = document.getElementById('popup');
-let blur = document.getElementById('blur');
 
 const tbody = document.getElementById('tbody')
-
-function openPopup(id) {
-    idDelete = id
-=======
-let popup = document.getElementById('popup');
+const formLider = document.getElementById('formLider')
+let popup = document.getElementById('popup')
 let blur = document.getElementById('blur');
-let popForm = document.getElementById('wrapper');
-let editar = document.getElementById('editar')
+let popForm = document.getElementById('wrapper')
 let criar = document.getElementById('criar')
 
 // Popup botão cancelar
-function openPopup() {
->>>>>>> marianna
+function openPopup(id) {
     popup.classList.add('open-popup');
     blur.classList.add('active');
 }
@@ -27,8 +17,6 @@ function closePopup() {
     blur.classList.remove('active');
 }
 
-<<<<<<< HEAD
-=======
 // Popup formulário
 function openForm() {
     popForm.classList.add('open-wrapper');
@@ -44,12 +32,7 @@ criar.onclick = function () {
     document.getElementById("title-form").innerText = "Criar";
     openForm();
 }
-editar.onclick = function () {
-    document.getElementById("title-form").innerText = "Editar";
-    openForm();
-}
 
->>>>>>> marianna
 // Filtro de pesquisa
 function filterTable() {
     let input = document.getElementById("search"),
@@ -86,22 +69,20 @@ function filterTable() {
     }
 }
 
-<<<<<<< HEAD
 // / Ordenar crescente e decrescente
 /**
  * Sorts a HTML table
- * 
+ *
  * @param {HTMLTableElement} table The table to sort
  * @param {number} column The index of the column to sort
  * @param {boolean} asc Determines if the sorting will be in ascending order
 =======
 /**
  * Tabela HTML em ordem crescente ou decrescente
- * 
+ *
  * @param {HTMLTableElement} table Qual tabela será ordenada
  * @param {number} column O index da coluna que será ordenada
- * @param {boolean} asc Determina a ordem em crescente ou decrescente 
->>>>>>> marianna
+ * @param {boolean} asc Determina a ordem em crescente ou decrescente
  */
 
 function sortTableByColumn(table, column, asc = true) {
@@ -109,11 +90,8 @@ function sortTableByColumn(table, column, asc = true) {
     const tBody = table.tBodies[0];
     const rows_table = Array.from(tBody.querySelectorAll('tr'));
     debugger
-<<<<<<< HEAD
     // Sort each row
-=======
-    // Ordenada cada linha 
->>>>>>> marianna
+    // Ordenada cada linha
     const sortedRows = rows_table.sort((a, b) => {
         debugger
         const aColText = a.querySelector(`td:nth-child(${column + 1})`).textContent.trim();
@@ -122,26 +100,20 @@ function sortTableByColumn(table, column, asc = true) {
         return aColText > bColText ? (1 * dirModifier) : (-1 * dirModifier);
     })
 
-<<<<<<< HEAD
-    // Remove all existing TRs from the table 
-=======
-    // Remove todos os TRs existentes da tabela 
->>>>>>> marianna
+    // Remove all existing TRs from the table
+    // Remove todos os TRs existentes da tabela
     while (tBody.firstChild) {
         tBody.removeChild(tBody.firstChild);
     }
 
-<<<<<<< HEAD
     // Re-add the newly sorted rows
     tBody.append(...sortedRows);
 
     // Remember how the column is currently sorted
-=======
     // Adiciona novamente as linhas recém-ordenadas
     tBody.append(...sortedRows);
 
     // Guarda a ordenação atual da coluna
->>>>>>> marianna
     table.querySelectorAll('th').forEach(th => th.classList.remove('th-sort-asc', 'th-sort-desc'));
     table.querySelector(`th:nth-child(${column + 1})`).classList.toggle('th-sort-asc', asc);
     table.querySelector(`th:nth-child(${column + 1})`).classList.toggle('th-sort-desc', !asc);
@@ -157,7 +129,6 @@ document.querySelectorAll('.table-sortable th').forEach(headerCell => {
     })
 })
 
-<<<<<<< HEAD
 function listar() {
     getLeaders()
         .then((data) => {
@@ -173,7 +144,7 @@ function listar() {
                     <td>${item.departamento}</td>
                     <td>${item.email}</td>
                     <td>
-                    <button class="btn" type="submit" title="Editar">
+                    <button class="btn" type="button" title="Editar" onclick="openForm()" id="editar">
                         <i class="ri-edit-2-fill"></i>
                     </button>
                 </td>
@@ -185,23 +156,48 @@ function listar() {
                 `
                 tbody.appendChild(tr)
             })
+            let editar = document.getElementById('editar')
+            editar.onclick = function () {
+                document.getElementById("title-form").innerText = "Editar"
+                openForm()
+            }
         })
         .catch((erro) => {
             console.log(erro)
         })
 }
 
+
+
 function deletar() {
     const id = idDelete
     const dados = { ativo: 0 }
     deleteLeader(id, dados)
-        .then(() => {
-            window.location.reload()
-
+        .then(() => {            
+            window.location.href = 'lider'
         })
         .catch((erro) => {
             console.log(erro)
         })
+}
+
+function criarLider() {
+    formLider.addEventListener('submit', (e) => {
+        e.preventDefault()
+        const fd = new FormData(formLider)
+        const dadosFormulario = Object.fromEntries(fd)
+        console.log(dadosFormulario)
+
+        createLeader(dadosFormulario)
+            .then(() => {
+                window.location.href = 'lider'
+            })
+            .catch((erro) => {
+                console.log(dadosFormulario)
+                console.log(erro)
+            })
+
+    })
 }
 
 
@@ -291,7 +287,6 @@ const editarLider = async (id, dadosAtualizados) => {
 
     return resposta.json()
 }
-=======
 // Notificação de alerta DELETADO
 $('.btn-danger').click(function () {
     $('.alert-del').addClass("show");
@@ -321,4 +316,7 @@ $('.close-btn-del').click(function () {
     $('.alert-reg').removeClass("show");
     $('.alert-reg').addClass("hide");
 });
->>>>>>> marianna
+
+document.addEventListener('DOMContentLoaded', () => {
+    listar()
+})
