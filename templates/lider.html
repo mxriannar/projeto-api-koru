@@ -41,19 +41,19 @@
 
         <div class="text-input">
             <label for="nome">Nome</label>
-            <input type="text" name="nome" id="nome" placeholder="Informe o nome">
+            <input type="text" name="nome" id="nome" placeholder="Informe o nome" required>
         </div>
         <div class="text-input">
             <label for="departamento">Setor</label>
-            <input class="departamento" type="text" name="departamento" id="departamento" placeholder="Informe o departamento" required>
+            <input type="text" name="departamento" id="departamento" placeholder="Informe o departamento" required>
         </div>
         <div class="text-input">
             <label for="email">E-mail</label>
-            <input class="email" type="text" name="email" id="email" placeholder="Informe o e-mail" required>
+            <input type="email" name="email" id="email" placeholder="Informe o e-mail" required>
         </div>
         <div class="text-input">
             <label for="password">Senha</label>
-            <input class="password" type="text" name="password" id="password" placeholder="Informe o e-mail" required>
+            <input type="password" name="password" id="password" placeholder="Informe a senha" required>
         </div>
         <div class="buttons">
             <button type="submit" class="btn-save" onclick="criarLider()">Salvar</button>
@@ -67,7 +67,7 @@
     <h2>Cuidado!</h2>
     <p>Tem certeza que deseja deletar esse líder?</p>
     <button class="btn-primary" type="button" onclick="closePopup()">Cancelar</button>
-    <button class="btn-danger">Deletar</button>
+    <button class="btn-danger" type="button" onclick="deletar()">Deletar</button>
 </div>
 
 <div class="alert alert-reg">
