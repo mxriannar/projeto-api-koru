@@ -1,10 +1,15 @@
 
 const tbody = document.getElementById('tbody')
 const formLider = document.getElementById('formLider')
-let popup = document.getElementById('popup')
-let blur = document.getElementById('blur');
-let popForm = document.getElementById('wrapper')
-let criar = document.getElementById('criar')
+let popup = document.getElementById('popup'),
+    blur = document.getElementById('blur'),
+    popForm = document.getElementById('wrapper'),
+    criar = document.getElementById('criar'),
+    editar = document.getElementById('editar'),
+    input = document.getElementById("search"),
+    filter = input.value.toLowerCase(),
+    table = document.getElementById("table-sortable"),
+    rows = table.getElementsByTagName("tr");
 
 // Popup botão cancelar
 function openPopup(id) {
@@ -36,11 +41,6 @@ criar.onclick = function () {
 
 // Filtro de pesquisa
 function filterTable() {
-    let input = document.getElementById("search"),
-        filter = input.value.toLowerCase(),
-        table = document.getElementById("table-sortable"),
-        rows = table.getElementsByTagName("tr");
-
     if (filter != "") {
         for (i = 1; i < rows.length; i++) {
             let cells = rows[i].getElementsByTagName("td"),
@@ -72,13 +72,6 @@ function filterTable() {
 
 // / Ordenar crescente e decrescente
 /**
- * Sorts a HTML table
- *
- * @param {HTMLTableElement} table The table to sort
- * @param {number} column The index of the column to sort
- * @param {boolean} asc Determines if the sorting will be in ascending order
-=======
-/**
  * Tabela HTML em ordem crescente ou decrescente
  *
  * @param {HTMLTableElement} table Qual tabela será ordenada
@@ -90,27 +83,19 @@ function sortTableByColumn(table, column, asc = true) {
     const dirModifier = asc ? 1 : -1;
     const tBody = table.tBodies[0];
     const rows_table = Array.from(tBody.querySelectorAll('tr'));
-    debugger
-    // Sort each row
     // Ordenada cada linha
     const sortedRows = rows_table.sort((a, b) => {
-        debugger
         const aColText = a.querySelector(`td:nth-child(${column + 1})`).textContent.trim();
         const bColText = b.querySelector(`td:nth-child(${column + 1})`).textContent.trim();
 
         return aColText > bColText ? (1 * dirModifier) : (-1 * dirModifier);
     })
 
-    // Remove all existing TRs from the table
     // Remove todos os TRs existentes da tabela
     while (tBody.firstChild) {
         tBody.removeChild(tBody.firstChild);
     }
 
-    // Re-add the newly sorted rows
-    tBody.append(...sortedRows);
-
-    // Remember how the column is currently sorted
     // Adiciona novamente as linhas recém-ordenadas
     tBody.append(...sortedRows);
 
@@ -157,7 +142,7 @@ function listar() {
                 `
                 tbody.appendChild(tr)
             })
-            let editar = document.getElementById('editar')
+            
             editar.onclick = function () {
                 document.getElementById("title-form").innerText = "Editar"
                 openForm()
@@ -167,8 +152,6 @@ function listar() {
             console.log(erro)
         })
 }
-
-
 
 function deletar() {
     const id = idDelete
@@ -199,7 +182,6 @@ function criarLider() {
     })
 
 }
-
 
 //SERVICES
 
@@ -322,4 +304,3 @@ $('.close-btn-del').click(function () {
 document.addEventListener('DOMContentLoaded', () => {
     listar()
 })
-
