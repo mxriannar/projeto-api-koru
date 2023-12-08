@@ -285,6 +285,7 @@ const editarLider = async (id, dadosAtualizados) => {
 
     return resposta.json()
 }
+
 // Notificação de alerta DELETADO
 $('.btn-danger').click(function () {
     $('.alert-del').addClass("show");
@@ -293,6 +294,7 @@ $('.btn-danger').click(function () {
     setTimeout(function () {
         $('.alert-del').removeClass("show");
         $('.alert-del').addClass("hide");
+        $('.alert-del').removeClass("showAlert");
     }, 5000);
 });
 $('.close-btn-del').click(function () {
@@ -307,14 +309,17 @@ $('.btn-save').click(function () {
     $('.alert-reg').addClass("showAlert");
     setTimeout(function () {
         $('.alert-reg').removeClass("show");
+        $('.alert-reg').removeClass("showAlert");
         $('.alert-reg').addClass("hide");
     }, 5000);
 });
 $('.close-btn-del').click(function () {
     $('.alert-reg').removeClass("show");
+    $('.alert-reg').removeClass("showAlert");
     $('.alert-reg').addClass("hide");
 });
 
 document.addEventListener('DOMContentLoaded', () => {
     listar()
 })
+
