@@ -8,6 +8,7 @@ let criar = document.getElementById('criar')
 
 // Popup botão cancelar
 function openPopup(id) {
+    idDelete = id
     popup.classList.add('open-popup');
     blur.classList.add('active');
 }
@@ -173,7 +174,7 @@ function deletar() {
     const id = idDelete
     const dados = { ativo: 0 }
     deleteLeader(id, dados)
-        .then(() => {            
+        .then(() => {
             window.location.href = 'lider'
         })
         .catch((erro) => {
@@ -186,18 +187,17 @@ function criarLider() {
         e.preventDefault()
         const fd = new FormData(formLider)
         const dadosFormulario = Object.fromEntries(fd)
-        console.log(dadosFormulario)
 
         createLeader(dadosFormulario)
             .then(() => {
                 window.location.href = 'lider'
             })
             .catch((erro) => {
-                console.log(dadosFormulario)
                 console.log(erro)
             })
 
     })
+
 }
 
 
@@ -253,7 +253,6 @@ const createLeader = async (dados) => {
 }
 
 const deleteLeader = async (id, dados) => {
-
     const url = urlBase + `lideres/${id}/ativo`
 
     const resposta = await fetch(url, {
@@ -263,7 +262,6 @@ const deleteLeader = async (id, dados) => {
         },
         body: JSON.stringify(dados)
     })
-    console.log(dados)
     if (!resposta.ok) {
         throw new Error(`Erro ao excluir líder: ${resposta.statusText}`)
     }
