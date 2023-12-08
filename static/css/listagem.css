@@ -146,8 +146,7 @@ table td {
 
 .popup {
     width: 400px;
-    background: #fff;
-    border-radius: 6px;
+    background: var(--white);
     position: absolute;
     top: 0;
     left: 50%;
@@ -157,6 +156,8 @@ table td {
     color: #333;
     visibility: hidden;
     transition: transform 0.4s, top 0.4s;
+    box-shadow: 0 0 17px 10px rgb(0 0 0 / 30%);
+    border-radius: 20px;
 }
 
 .open-popup {
