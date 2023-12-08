@@ -144,7 +144,7 @@ function listar() {
                     <td>${item.departamento}</td>
                     <td>${item.email}</td>
                     <td>
-                    <button class="btn" type="button" title="Editar" onclick="openForm()">
+                    <button class="btn" type="button" title="Editar" onclick="openForm()" id="editar">
                         <i class="ri-edit-2-fill"></i>
                     </button>
                 </td>
@@ -170,7 +170,7 @@ function listar() {
 function deletar() {
     const id = idDelete
     const dados = { ativo: 0 }
-    deleteLeader(id, dados)
+    deleteCollaborator(id, dados)
         .then(() => {
             window.location.reload()
 
