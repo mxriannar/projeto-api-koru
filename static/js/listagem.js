@@ -131,7 +131,7 @@ document.querySelectorAll('.table-sortable th').forEach(headerCell => {
 })
 
 function listar() {
-    getLeaders()
+    getLideres()
         .then((data) => {
             console.log(data)
 
@@ -200,12 +200,48 @@ function criarLider() {
 
 }
 
+function editar() {
+    getLiderPorId()
+        .then((data) => {
+            console.log(data)
+            
+        })
+    dadosFormulario.forEach((item) => {
+        console.log(item)
+        formLider.innerHTML = `
+        <td>${item.id}</td>
+        <td>${item.nome}</td>
+        <td>${item.departamento}</td>
+        <td>${item.email}</td>
+        `
+
+    })
+
+
+    formLider.addEventListener('submit', (e) => {
+        e.preventDefault()
+        const fd = new FormData(formLider)
+        const dadosFormulario = Object.fromEntries(fd)
+
+        updateLeader(dadosFormulario)
+            .then(() => {
+                window.location.href = 'lider'
+
+            })
+            .catch((erro) => {
+                console.log(erro)
+            })
+
+    })
+
+}
+
 
 //SERVICES
 
 const urlBase = `http://localhost:5000/`
 
-const getLeaders = async () => {
+const getLideres = async () => {
     const url = urlBase + 'lideres'
 
     try {
@@ -222,7 +258,7 @@ const getLeaders = async () => {
     }
 }
 
-const getAllLeaders = async (id) => {
+const getLiderPorId = async (id) => {
     const url = urlBase + `lideres/${id}`
     try {
         const resposta = await fetch(url, {
