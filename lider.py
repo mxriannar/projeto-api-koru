@@ -39,7 +39,7 @@ class Lider:
         
     @staticmethod
     def get_by_id(id:int, db:sqlite3.Connection):
-        query = "SELECT * FROM lideres WHERE id_lider = ?"
+        query = "SELECT * FROM lideres WHERE id_lider = ? AND ativo_lider = 1"
         cursor = db.cursor()
         result = cursor.execute(query, (id, )).fetchone()
         if result:
