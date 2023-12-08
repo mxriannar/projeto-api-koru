@@ -89,7 +89,7 @@ def create_lider():
 @app.route("/colaboradores", methods=["POST"])
 def create_colaborador():
     data = request.get_json()
-    colaborador = Colaborador(nome = data["nome"], departamento = data["departamento"])
+    colaborador = Colaborador(nome = data["nome"], departamento = data["departamento"], email = data["email"], senha = data["senha"], ativo = "1")
     colaborador.save(db.connect())
     return jsonify(colaborador.to_dict())
 
@@ -122,7 +122,7 @@ def update_lider(id_lider):
     
 from flask import request, jsonify
 
-# atualizar uma propriedade de um usuário
+# atualizar uma propriedade de um lider
 @app.route("/lideres/<int:id_lider>/<string:propriedade>", methods=["PUT"])
 def update_lider_property(id_lider, propriedade):
     data = request.get_json()
@@ -147,10 +147,30 @@ def update_colaborador(id_colaborador):
     if colaborador:
         colaborador.nome = data["nome"]
         colaborador.departamento = data["departamento"]
+        colaborador.email = data["email"]
+        colaborador.senha = data["senha"]
+        colaborador.ativo = data["ativo"]
         colaborador.save(db.connect())
         return jsonify(colaborador.to_dict())
     else:
         return jsonify({"error": "Colaborador não localizado"}), 404
+    
+# atualizar uma propriedade de um colaborador
+@app.route("/colaboradores/<int:id_colaborador>/<string:propriedade>", methods=["PUT"])
+def update_colaborador_property(id_colaborador, propriedade):
+    data = request.get_json()
+    colaborador = Colaborador.get_by_id(id_colaborador, db.connect())
+
+    if colaborador:
+        if propriedade in ["nome", "departamento", "email", "senha", "ativo"]:
+            setattr(colaborador, propriedade, data[propriedade])
+            colaborador.save(db.connect())
+            return jsonify(colaborador.to_dict())
+        else:
+            return jsonify({"error": f"Propriedade {propriedade} inválida"}), 400
+    else:
+        return jsonify({"error": "Líder não localizado"}), 404
+
 
 # Atualizar uma reunião
 @app.route("/reunioes/<int:id_reuniao>", methods=["PUT"])

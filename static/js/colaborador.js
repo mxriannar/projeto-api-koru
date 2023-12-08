@@ -1,9 +1,10 @@
 
 const tbody = document.getElementById('tbody')
-const formLider = document.getElementById('formLider')
-let popup = document.getElementById('popup')
+const formColaborador = document.getElementById('formColaborador')
+
+let popup = document.getElementById('popup');
 let blur = document.getElementById('blur');
-let popForm = document.getElementById('wrapper')
+let popForm = document.getElementById('wrapper');
 let criar = document.getElementById('criar')
 
 // Popup botão cancelar
@@ -131,7 +132,7 @@ document.querySelectorAll('.table-sortable th').forEach(headerCell => {
 })
 
 function listar() {
-    getLeaders()
+    getColaboradores()
         .then((data) => {
             console.log(data)
 
@@ -159,8 +160,8 @@ function listar() {
             })
             let editar = document.getElementById('editar')
             editar.onclick = function () {
-                document.getElementById("title-form").innerText = "Editar"
-                openForm()
+                document.getElementById("title-form").innerText = "Editar";
+                openForm();
             }
         })
         .catch((erro) => {
@@ -168,36 +169,33 @@ function listar() {
         })
 }
 
-
-
 function deletar() {
     const id = idDelete
     const dados = { ativo: 0 }
-    deleteLeader(id, dados)
+    deleteCollaborator(id, dados)
         .then(() => {
-            window.location.href = 'lider'
+            window.location.reload()
         })
         .catch((erro) => {
             console.log(erro)
         })
 }
 
-function criarLider() {
-    formLider.addEventListener('submit', (e) => {
+function criarColaborador() {
+    formColaborador.addEventListener('submit', (e) => {
         e.preventDefault()
-        const fd = new FormData(formLider)
+        const fd = new FormData(formColaborador)
         const dadosFormulario = Object.fromEntries(fd)
+        console.log(dadosFormulario)
 
-        createLeader(dadosFormulario)
+        postCollaborator(dadosFormulario)
             .then(() => {
-                window.location.href = 'lider'
             })
             .catch((erro) => {
                 console.log(erro)
             })
 
     })
-
 }
 
 
@@ -205,8 +203,8 @@ function criarLider() {
 
 const urlBase = `http://localhost:5000/`
 
-const getLeaders = async () => {
-    const url = urlBase + 'lideres'
+const getColaboradores = async () => {
+    const url = urlBase + 'colaboradores'
 
     try {
         const resposta = await fetch(url, {
@@ -217,30 +215,14 @@ const getLeaders = async () => {
         })
         return await resposta.json()
     } catch (erro) {
-        console.error('Ocorreu um erro na busca de líderes:', erro)
-        throw erro
-    }
-}
-
-const getAllLeaders = async (id) => {
-    const url = urlBase + `lideres/${id}`
-    try {
-        const resposta = await fetch(url, {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        })
-        return await resposta.json()
-    } catch (erro) {
-        console.error('Ocorreu um erro na busca de lideres:', erro)
-        throw erro
+        console.error('Ocorreu um erro na busca de colaboradores:', erro)
+        throw erro // Propagar o erro para quem chamou essa função, se necessário
     }
 }
 
 
-const createLeader = async (dados) => {
-    const url = urlBase + 'lideres'
+const postCollaborator = async (dados) => {
+    const url = urlBase + 'colaboradores'
 
     const resposta = await fetch(url, {
         method: 'POST',
@@ -252,8 +234,8 @@ const createLeader = async (dados) => {
     return await resposta.json()
 }
 
-const deleteLeader = async (id, dados) => {
-    const url = urlBase + `lideres/${id}/ativo`
+const deleteCollaborator = async (id, dados) => {
+    const url = urlBase + `colaboradores/${id}/ativo`
 
     const resposta = await fetch(url, {
         method: 'PUT',
@@ -262,25 +244,8 @@ const deleteLeader = async (id, dados) => {
         },
         body: JSON.stringify(dados)
     })
-    if (!resposta.ok) {
-        throw new Error(`Erro ao excluir líder: ${resposta.statusText}`)
-    }
-    return resposta.json()
-}
-const editarLider = async (id, dadosAtualizados) => {
-    const url = urlBase + `lideres/${id}`
-
-    const resposta = await fetch(url, {
-        method: 'PUT',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(dadosAtualizados)
-    })
-    console.log(dadosAtualizados)
-
-    if (!resposta.ok) {
-        throw new Error(`Erro ao editar líder: ${resposta.statusText}`)
+    if (!resposta.dados) {
+        throw new Error(`Erro ao excluir colaborador: ${resposta.statusText}`)
     }
 
     return resposta.json()
@@ -294,7 +259,6 @@ $('.btn-danger').click(function () {
     setTimeout(function () {
         $('.alert-del').removeClass("show");
         $('.alert-del').addClass("hide");
-        $('.alert-del').removeClass("showAlert");
     }, 5000);
 });
 $('.close-btn-del').click(function () {
@@ -309,17 +273,14 @@ $('.btn-save').click(function () {
     $('.alert-reg').addClass("showAlert");
     setTimeout(function () {
         $('.alert-reg').removeClass("show");
-        $('.alert-reg').removeClass("showAlert");
         $('.alert-reg').addClass("hide");
     }, 5000);
 });
 $('.close-btn-del').click(function () {
     $('.alert-reg').removeClass("show");
-    $('.alert-reg').removeClass("showAlert");
     $('.alert-reg').addClass("hide");
 });
 
 document.addEventListener('DOMContentLoaded', () => {
     listar()
 })
-
