@@ -34,28 +34,32 @@
 </div>
 
 <div class="wrapper" id="wrapper">
-    <form action="">
+    <form action="" id="formColaborador">
         <h2 class="title" id="title-form"></h2>
 
-        <div class="text-input">
+      <!--   <div class="text-input">
             <label for="id">ID</label>
             <input type="text" name="id" id="id" placeholder="Informe o ID">
-        </div>
+        </div> -->
         <div class="text-input">
-            <label for="name">Nome</label>
-            <input type="text" name="name" id="name" placeholder="Informe o nome" required>
+            <label for="nome">Nome</label>
+            <input type="text" name="nome" id="nome" placeholder="Informe o nome" required>
         </div>
         <div class="text-input">
             <label for="departamento">Setor</label>
-            <input class="departamento" type="text" id="departamento" placeholder="Informe o departamento" required>
+            <input type="text" name="departamento" id="departamento" placeholder="Informe o departamento" required>
         </div>
         <div class="text-input">
             <label for="email">E-mail</label>
-            <input class="email" type="text" id="email" placeholder="Informe o e-mail" required>
+            <input type="email" name="email" id="email" placeholder="Informe o e-mail" required>
+        </div>
+        <div class="text-input">
+            <label for="senha">E-mail</label>
+            <input type="password" name="senha" id="senha" placeholder="Informe a senha" required>
         </div>
 
         <div class="buttons">
-            <button type="submit" class="btn-save">Salvar</button>
+            <button type="submit" class="btn-save" onclick="criarColaborador()">Salvar</button>
             <button class="btn-primary" onclick="closeForm()">Cancelar</button>
         </div>
     </form>
@@ -66,7 +70,7 @@
     <h2>Cuidado!</h2>
     <p>Tem certeza que deseja deletar esse colaborador?</p>
     <button class="btn-primary" type="button" onclick="closePopup()">Cancelar</button>
-    <button class="btn-danger">Deletar</button>
+    <button class="btn-danger" type="button" onclick="deletar()">Deletar</button>
 </div>
 
 <div class="alert alert-reg">
