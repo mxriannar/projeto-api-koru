@@ -28,7 +28,7 @@ function openForm(button, id) {
     popForm.classList.add('open-wrapper')
     if (buttonID === "editar") {
         document.getElementById("title-form").innerText = "Editar"
-        editar(id)
+        editarLider(id)
     } else {
         document.getElementById("title-form").innerText = "Criar"
         criarLider()
@@ -181,7 +181,7 @@ function criarLider() {
 
 }
 
-function editar(id) {
+function editarLider(id) {
     getLider(id)
         .then((data) => {
             console.log(data)
@@ -200,8 +200,10 @@ function editar(id) {
         const fd = new FormData(formLider)
         const dadosFormulario = Object.fromEntries(fd)
 
-        editarLider(id, dadosFormulario)
+        putLider(id, dadosFormulario)
             .then(() => {
+                btnSalvar.disabled = true;
+                alertaSucesso()
             })
             .catch((erro) => {
                 console.log(erro)
@@ -277,7 +279,8 @@ const putLiderAtivo = async (id, dados) => {
     }
     return resposta.json()
 }
-const editarLider = async (id, dadosAtualizados) => {
+
+const putLider = async (id, dadosAtualizados) => {
     const url = urlBase + `lideres/${id}`
 
     const resposta = await fetch(url, {
