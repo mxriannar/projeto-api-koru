@@ -184,7 +184,6 @@ function criarLider() {
 function editarLider(id) {
     getLider(id)
         .then((data) => {
-            console.log(data)
             document.getElementById('nome').value = data.nome;
             document.getElementById('departamento').value = data.departamento;
             document.getElementById('email').value = data.email;
@@ -196,7 +195,6 @@ function editarLider(id) {
 
     formLider.addEventListener('submit', (e) => {
         e.preventDefault()
-
         const fd = new FormData(formLider)
         const dadosFormulario = Object.fromEntries(fd)
 
@@ -208,9 +206,7 @@ function editarLider(id) {
             .catch((erro) => {
                 console.log(erro)
             })
-
     })
-
 }
 
 //SERVICES
@@ -294,7 +290,6 @@ const putLider = async (id, dadosAtualizados) => {
     if (!resposta.ok) {
         throw new Error(`Erro ao editar líder: ${resposta.statusText}`)
     }
-
     return resposta.json()
 }
 
