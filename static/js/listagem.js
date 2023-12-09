@@ -7,7 +7,8 @@ let popup = document.getElementById('popup'),
     input = document.getElementById("search"),
     filter = input.value.toLowerCase(),
     table = document.getElementById("table-sortable"),
-    rows = table.getElementsByTagName("tr")
+    rows = table.getElementsByTagName("tr"),
+    btnSalvar = document.getElementById('btn-save')
 
 // Popup botão cancelar
 function openPopup(id) {
@@ -38,7 +39,7 @@ function openForm(button, id) {
 function closeForm() {
     popForm.classList.remove('open-wrapper');
     blur.classList.remove('active');
-    window.location.reload()
+    window.location.reload();
 }
 
 // Filtro de pesquisa
@@ -120,10 +121,7 @@ document.querySelectorAll('.table-sortable th').forEach(headerCell => {
 function listar() {
     getLideres()
         .then((data) => {
-            console.log(data)
-
-            tbody.innerHTML = ''
-
+            tbody.innerHTML = ``
             data.forEach((item) => {
                 const tr = document.createElement('tr');
                 tr.innerHTML = `
@@ -132,15 +130,15 @@ function listar() {
                     <td>${item.departamento}</td>
                     <td>${item.email}</td>
                     <td>
-                    <button class="btn" type="button" title="Editar" onclick="openForm(this, ${item.id})" id="editar">
-                        <i class="ri-edit-2-fill"></i>
-                    </button>
-                </td>
-                <td>
-                    <button class="btn" type="submit" title="Deletar" onclick="openPopup(${item.id})">
-                        <i class="ri-delete-bin-2-fill"></i>
-                    </button>
-                </td>
+                        <button class="btn" type="button" title="Editar" onclick="openForm(this, ${item.id})" id="editar">
+                            <i class="ri-edit-2-fill"></i>
+                        </button>
+                    </td>
+                    <td>
+                        <button class="btn" type="submit" title="Deletar" onclick="openPopup(${item.id})">
+                            <i class="ri-delete-bin-2-fill"></i>
+                        </button>
+                    </td>
                 `
                 tbody.appendChild(tr)
             })
@@ -154,9 +152,10 @@ function listar() {
 function deletar() {
     const id = idDelete
     const dados = { ativo: 0 }
-    deleteLeader(id, dados)
+    putLiderAtivo(id, dados)
         .then(() => {
-            window.location.href = 'lider'
+            closePopup();
+            alertaDeletadoSucesso();
         })
         .catch((erro) => {
             console.log(erro)
@@ -166,13 +165,13 @@ function deletar() {
 function criarLider() {
     formLider.addEventListener('submit', (e) => {
         e.preventDefault()
-
         const fd = new FormData(formLider)
         const dadosFormulario = Object.fromEntries(fd)
 
-        createLeader(dadosFormulario)
+        postLider(dadosFormulario)
             .then(() => {
-                window.location.href = 'lider'
+                btnSalvar.disabled = true;
+                alertaSucesso()
             })
             .catch((erro) => {
                 console.log(erro)
@@ -250,7 +249,7 @@ const getLider = async (id) => {
 }
 
 
-const createLeader = async (dados) => {
+const postLider = async (dados) => {
     const url = urlBase + 'lideres'
 
     const resposta = await fetch(url, {
@@ -263,7 +262,7 @@ const createLeader = async (dados) => {
     return await resposta.json()
 }
 
-const deleteLeader = async (id, dados) => {
+const putLiderAtivo = async (id, dados) => {
     const url = urlBase + `lideres/${id}/ativo`
 
     const resposta = await fetch(url, {
@@ -298,7 +297,7 @@ const editarLider = async (id, dadosAtualizados) => {
 
 // TODO: arrumar tempo de atualização da página para mostrar a notificação
 // Notificação de alerta DELETADO
-$('.btn-danger').click(function () {
+function alertaDeletadoSucesso() {
     $('.alert-del').addClass("show");
     $('.alert-del').removeClass("hide");
     $('.alert-del').addClass("showAlert");
@@ -306,24 +305,28 @@ $('.btn-danger').click(function () {
         $('.alert-del').removeClass("show");
         $('.alert-del').addClass("hide");
         $('.alert-del').removeClass("showAlert");
+        window.location.reload()
     }, 5000);
-});
+};
+
 $('.close-btn-del').click(function () {
     $('.alert-del').removeClass("show");
     $('.alert-del').addClass("hide");
 });
 
 // Notificação de alerta CADASTRADO OU EDITADO
-$('.btn-save').click(function () {
+function alertaSucesso() {
     $('.alert-reg').addClass("show");
     $('.alert-reg').removeClass("hide");
     $('.alert-reg').addClass("showAlert");
     setTimeout(function () {
         $('.alert-reg').removeClass("show");
-        $('.alert-reg').removeClass("showAlert");
         $('.alert-reg').addClass("hide");
+        closeForm()
     }, 5000);
-});
+};
+
+
 $('.close-btn-del').click(function () {
     $('.alert-reg').removeClass("show");
     $('.alert-reg').removeClass("showAlert");
