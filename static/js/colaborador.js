@@ -163,12 +163,13 @@ function listarColaboradores() {
 function deletarColaborador() {
     const id = idDelete
     const dados = { ativo: 0 }
-    putColaborador(id, dados)
+    putColaboradorAtivo(id, dados)
         .then(() => {
-            window.location.reload()
+            closePopup()
+            alertaDeletadoSucesso()
         })
         .catch((erro) => {
-            console.log(erro)
+            console.log("Entrou no erro")
         })
 }
 
@@ -198,6 +199,9 @@ function editarColaborador(id) {
             document.getElementById('email').value = data.email
             document.getElementById('senha').value = data.senha
         })
+        .catch((erro) => {
+            console.log(erro)
+        })
 
     formColaborador.addEventListener('submit', (e) => {
         e.preventDefault()
@@ -206,7 +210,8 @@ function editarColaborador(id) {
 
         putColaborador(id, dadosFormulario)
             .then(() => {
-
+                btnSalvar.disabled = true;
+                alertaSucesso();
             })
             .catch((erro) => {
                 console.log(erro)
@@ -268,7 +273,7 @@ const postColaborador = async (dados) => {
     return await resposta.json()
 }
 
-const putColaborador = async (id, dados) => {
+const putColaboradorAtivo = async (id, dados) => {
     const url = urlBase + `colaboradores/${id}/ativo`
 
     const resposta = await fetch(url, {
@@ -278,7 +283,24 @@ const putColaborador = async (id, dados) => {
         },
         body: JSON.stringify(dados)
     })
-    if (!resposta.dados) {
+    if (!resposta.ok) {
+        throw new Error(`Erro ao excluir colaborador: ${resposta.statusText}`)
+    }
+
+    return resposta.json()
+}
+
+const putColaborador = async (id, dados) => {
+    const url = urlBase + `colaboradores/${id}`
+
+    const resposta = await fetch(url, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(dados)
+    })
+    if (!resposta.ok) {
         throw new Error(`Erro ao excluir colaborador: ${resposta.statusText}`)
     }
 
@@ -286,15 +308,18 @@ const putColaborador = async (id, dados) => {
 }
 
 // Notificação de alerta DELETADO
-$('.btn-danger').click(function () {
+function alertaDeletadoSucesso() {
     $('.alert-del').addClass("show");
     $('.alert-del').removeClass("hide");
     $('.alert-del').addClass("showAlert");
     setTimeout(function () {
         $('.alert-del').removeClass("show");
         $('.alert-del').addClass("hide");
+        $('.alert-del').removeClass("showAlert");
+        window.location.reload()
     }, 5000);
-});
+};
+
 $('.close-btn-del').click(function () {
     $('.alert-del').removeClass("show");
     $('.alert-del').addClass("hide");
