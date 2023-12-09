@@ -114,7 +114,6 @@ def update_lider(id_lider):
         lider.departamento = data["departamento"]
         lider.email = data["email"]
         lider.password = data["password"]
-        lider.ativo = data["ativo"]
         lider.save(db.connect())
         return jsonify(lider.to_dict())
     else:
@@ -149,7 +148,6 @@ def update_colaborador(id_colaborador):
         colaborador.departamento = data["departamento"]
         colaborador.email = data["email"]
         colaborador.senha = data["senha"]
-        colaborador.ativo = data["ativo"]
         colaborador.save(db.connect())
         return jsonify(colaborador.to_dict())
     else:
