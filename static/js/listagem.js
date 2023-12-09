@@ -4,12 +4,10 @@ const formLider = document.getElementById('formLider')
 let popup = document.getElementById('popup'),
     blur = document.getElementById('blur'),
     popForm = document.getElementById('wrapper'),
-    criar = document.getElementById('criar'),
-    editar = document.getElementById('editar'),
     input = document.getElementById("search"),
     filter = input.value.toLowerCase(),
     table = document.getElementById("table-sortable"),
-    rows = table.getElementsByTagName("tr");
+    rows = table.getElementsByTagName("tr")
 
 // Popup botão cancelar
 function openPopup(id) {
@@ -24,19 +22,23 @@ function closePopup() {
 }
 
 // Popup formulário
-function openForm() {
-    popForm.classList.add('open-wrapper');
-    blur.classList.add('active');
+function openForm(button, id) {
+    const buttonID = button.id
+    popForm.classList.add('open-wrapper')
+    if (buttonID === "editar") {
+        document.getElementById("title-form").innerText = "Editar"
+        editar(id)
+    } else {
+        document.getElementById("title-form").innerText = "Criar"
+        criarLider()
+    }
+    blur.classList.add('active')
 }
 
 function closeForm() {
     popForm.classList.remove('open-wrapper');
     blur.classList.remove('active');
-}
-
-criar.onclick = function () {
-    document.getElementById("title-form").innerText = "Criar";
-    openForm();
+    window.location.reload()
 }
 
 // Filtro de pesquisa
@@ -116,7 +118,7 @@ document.querySelectorAll('.table-sortable th').forEach(headerCell => {
 })
 
 function listar() {
-    getLeaders()
+    getLideres()
         .then((data) => {
             console.log(data)
 
@@ -130,7 +132,7 @@ function listar() {
                     <td>${item.departamento}</td>
                     <td>${item.email}</td>
                     <td>
-                    <button class="btn" type="button" title="Editar" onclick="openForm()" id="editar">
+                    <button class="btn" type="button" title="Editar" onclick="openForm(this, ${item.id})" id="editar">
                         <i class="ri-edit-2-fill"></i>
                     </button>
                 </td>
@@ -142,12 +144,7 @@ function listar() {
                 `
                 tbody.appendChild(tr)
             })
-            
-            // TODO: arrumar função pois não está alterando o título
-            editar.onclick = function () {
-                document.getElementById("title-form").innerText = "Editar"
-                openForm()
-            }
+
         })
         .catch((erro) => {
             console.log(erro)
@@ -169,6 +166,7 @@ function deletar() {
 function criarLider() {
     formLider.addEventListener('submit', (e) => {
         e.preventDefault()
+
         const fd = new FormData(formLider)
         const dadosFormulario = Object.fromEntries(fd)
 
@@ -184,11 +182,41 @@ function criarLider() {
 
 }
 
+function editar(id) {
+    getLider(id)
+        .then((data) => {
+            console.log(data)
+            document.getElementById('nome').value = data.nome;
+            document.getElementById('departamento').value = data.departamento;
+            document.getElementById('email').value = data.email;
+            document.getElementById('password').value = data.password;
+        })
+        .catch((erro) => {
+            console.log(erro)
+        })
+
+    formLider.addEventListener('submit', (e) => {
+        e.preventDefault()
+
+        const fd = new FormData(formLider)
+        const dadosFormulario = Object.fromEntries(fd)
+
+        editarLider(id, dadosFormulario)
+            .then(() => {
+            })
+            .catch((erro) => {
+                console.log(erro)
+            })
+
+    })
+
+}
+
 //SERVICES
 
 const urlBase = `http://localhost:5000/`
 
-const getLeaders = async () => {
+const getLideres = async () => {
     const url = urlBase + 'lideres'
 
     try {
@@ -205,7 +233,7 @@ const getLeaders = async () => {
     }
 }
 
-const getAllLeaders = async (id) => {
+const getLider = async (id) => {
     const url = urlBase + `lideres/${id}`
     try {
         const resposta = await fetch(url, {
@@ -260,7 +288,6 @@ const editarLider = async (id, dadosAtualizados) => {
         },
         body: JSON.stringify(dadosAtualizados)
     })
-    console.log(dadosAtualizados)
 
     if (!resposta.ok) {
         throw new Error(`Erro ao editar líder: ${resposta.statusText}`)
