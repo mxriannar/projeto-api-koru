@@ -100,7 +100,7 @@ def create_reuniao():
     lider = Lider.get_by_id(data["id_lider"], db.connect())
     colaborador = Colaborador.get_by_id(data["id_colaborador"], db.connect())
     data_reuniao = datetime.fromisoformat(data["data_reuniao"])
-    reuniao = Reuniao(lider = lider, colaborador = colaborador, data = data_reuniao)
+    reuniao = Reuniao(lider = lider, colaborador = colaborador, data = data_reuniao, ativo = "1")
     reuniao.save(db.connect())
     return jsonify(reuniao.to_dict())
 
@@ -153,6 +153,23 @@ def update_colaborador(id_colaborador):
     else:
         return jsonify({"error": "Colaborador não localizado"}), 404
     
+# Atualizar uma reunião
+@app.route("/reunioes/<int:id_reuniao>", methods=["PUT"])
+def update_reuniao(id_reuniao):
+    data = request.get_json()
+    reuniao = Reuniao.get_by_id(id_reuniao, db.connect())
+    if reuniao:
+        lider = Lider.get_by_id(data["id_lider"], db.connect())
+        colaborador = Colaborador.get_by_id(data["id_colaborador"], db.connect())
+        data_reuniao = datetime.fromisoformat(data["data_reuniao"])
+        reuniao.lider = lider
+        reuniao.colaborador = colaborador
+        reuniao.data = data_reuniao
+        reuniao.save(db.connect())
+        return jsonify(reuniao.to_dict())
+    else:
+        return jsonify({"error": "Reunião não localizada"}), 404
+    
 # atualizar uma propriedade de um colaborador
 @app.route("/colaboradores/<int:id_colaborador>/<string:propriedade>", methods=["PUT"])
 def update_colaborador_property(id_colaborador, propriedade):
@@ -169,21 +186,18 @@ def update_colaborador_property(id_colaborador, propriedade):
     else:
         return jsonify({"error": "Líder não localizado"}), 404
 
-
-# Atualizar uma reunião
-@app.route("/reunioes/<int:id_reuniao>", methods=["PUT"])
-def update_reuniao(id_reuniao):
+# Atualizar uma propriedade da reunião
+@app.route("/reunioes/<int:id_reuniao>/<string:propriedade>", methods=["PUT"])
+def update_reuniao_property(id_reuniao, propriedade):
     data = request.get_json()
     reuniao = Reuniao.get_by_id(id_reuniao, db.connect())
     if reuniao:
-        lider = Lider.get_by_id(data["id_lider"], db.connect())
-        colaborador = Colaborador.get_by_id(data["id_colaborador"], db.connect())
-        data_reuniao = datetime.fromisoformat(data["data_reuniao"])
-        reuniao.lider = lider
-        reuniao.colaborador = colaborador
-        reuniao.data = data_reuniao
-        reuniao.save(db.connect())
-        return jsonify(reuniao.to_dict())
+        if propriedade in ["id_lider", "id_colaborador", "data_reuniao", "ativo"]:
+            setattr(reuniao, propriedade, data[propriedade])
+            reuniao.save(db.connect())
+            return jsonify(reuniao.to_dict())
+        else:
+            return jsonify({"error": f"Propriedade {propriedade} inválida"}), 400
     else:
         return jsonify({"error": "Reunião não localizada"}), 404
     
