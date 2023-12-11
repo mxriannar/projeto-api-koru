@@ -4,7 +4,13 @@ const formColaborador = document.getElementById('formColaborador')
 let popup = document.getElementById('popup'),
     blur = document.getElementById('blur'),
     popForm = document.getElementById('wrapper'),
+    input = document.getElementById("search"),
+    filter = input.value.toLowerCase(),
+    table = document.getElementById("table-sortable"),
+    rows = table.getElementsByTagName("tr"),
+    btnSalvar = document.getElementById('btn-save'),
     criar = document.getElementById('criar');
+
 
 // Popup botão cancelar
 function openPopup(id) {
@@ -19,28 +25,27 @@ function closePopup() {
 }
 
 // Popup formulário
-function openForm() {
-    popForm.classList.add('open-wrapper');
-    blur.classList.add('active');
+function openForm(button, id) {
+    const buttonID = button.id
+    popForm.classList.add('open-wrapper')
+    if (buttonID === "editar") {
+        document.getElementById("title-form").innerText = "Editar"
+        editarColaborador(id)
+    } else {
+        document.getElementById("title-form").innerText = "Criar"
+        criarColaborador()
+    }
+    blur.classList.add('active')
 }
 
 function closeForm() {
     popForm.classList.remove('open-wrapper');
     blur.classList.remove('active');
-}
-
-criar.onclick = function () {
-    document.getElementById("title-form").innerText = "Criar";
-    openForm();
+    window.location.reload();
 }
 
 // Filtro de pesquisa
 function filterTable() {
-    let input = document.getElementById("search"),
-        filter = input.value.toLowerCase(),
-        table = document.getElementById("table-sortable"),
-        rows = table.getElementsByTagName("tr");
-
     if (filter != "") {
         for (i = 1; i < rows.length; i++) {
             let cells = rows[i].getElementsByTagName("td"),
@@ -90,18 +95,14 @@ function sortTableByColumn(table, column, asc = true) {
     const dirModifier = asc ? 1 : -1;
     const tBody = table.tBodies[0];
     const rows_table = Array.from(tBody.querySelectorAll('tr'));
-    debugger
-    // Sort each row
     // Ordenada cada linha
     const sortedRows = rows_table.sort((a, b) => {
-        debugger
         const aColText = a.querySelector(`td:nth-child(${column + 1})`).textContent.trim();
         const bColText = b.querySelector(`td:nth-child(${column + 1})`).textContent.trim();
 
         return aColText > bColText ? (1 * dirModifier) : (-1 * dirModifier);
     })
 
-    // Remove all existing TRs from the table
     // Remove todos os TRs existentes da tabela
     while (tBody.firstChild) {
         tBody.removeChild(tBody.firstChild);
@@ -130,13 +131,10 @@ document.querySelectorAll('.table-sortable th').forEach(headerCell => {
     })
 })
 
-function listar() {
+function listarColaboradores() {
     getColaboradores()
         .then((data) => {
-            console.log(data)
-
             tbody.innerHTML = ''
-
             data.forEach((item) => {
                 const tr = document.createElement('tr');
                 tr.innerHTML = `
@@ -145,7 +143,7 @@ function listar() {
                     <td>${item.departamento}</td>
                     <td>${item.email}</td>
                     <td>
-                    <button class="btn" type="button" title="Editar" onclick="openForm()" id="editar">
+                    <button class="btn" type="button" title="Editar" onclick="openForm(this, ${item.id})" id="editar">
                         <i class="ri-edit-2-fill"></i>
                     </button>
                 </td>
@@ -157,26 +155,23 @@ function listar() {
                 `
                 tbody.appendChild(tr)
             })
-            let editar = document.getElementById('editar')
-            editar.onclick = function () {
-                document.getElementById("title-form").innerText = "Editar";
-                openForm();
-            }
+
         })
         .catch((erro) => {
             console.log(erro)
         })
 }
 
-function deletar() {
+function deletarColaborador() {
     const id = idDelete
     const dados = { ativo: 0 }
-    deleteCollaborator(id, dados)
+    putColaboradorAtivo(id, dados)
         .then(() => {
-            window.location.reload()
+            closePopup()
+            alertaDeletadoSucesso()
         })
         .catch((erro) => {
-            console.log(erro)
+            console.log("Entrou no erro")
         })
 }
 
@@ -185,10 +180,40 @@ function criarColaborador() {
         e.preventDefault()
         const fd = new FormData(formColaborador)
         const dadosFormulario = Object.fromEntries(fd)
-        console.log(dadosFormulario)
 
-        postCollaborator(dadosFormulario)
+        postColaborador(dadosFormulario)
             .then(() => {
+                btnSalvar.disabled = true;
+                alertaSucesso()
+            })
+            .catch((erro) => {
+                console.log(erro)
+            })
+
+    })
+}
+
+function editarColaborador(id) {
+    getColaborador(id)
+        .then((data) => {
+            document.getElementById('nome').value = data.nome
+            document.getElementById('departamento').value = data.departamento
+            document.getElementById('email').value = data.email
+            document.getElementById('senha').value = data.senha
+        })
+        .catch((erro) => {
+            console.log(erro)
+        })
+
+    formColaborador.addEventListener('submit', (e) => {
+        e.preventDefault()
+        const fd = new FormData(formColaborador)
+        const dadosFormulario = Object.fromEntries(fd)
+
+        putColaborador(id, dadosFormulario)
+            .then(() => {
+                btnSalvar.disabled = true;
+                alertaSucesso();
             })
             .catch((erro) => {
                 console.log(erro)
@@ -215,12 +240,29 @@ const getColaboradores = async () => {
         return await resposta.json()
     } catch (erro) {
         console.error('Ocorreu um erro na busca de colaboradores:', erro)
-        throw erro // Propagar o erro para quem chamou essa função, se necessário
     }
 }
 
+const getColaborador = async (id) => {
+    const url = urlBase + `colaboradores/${id}`
 
-const postCollaborator = async (dados) => {
+    try {
+        const resposta = await fetch(url, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+        return await resposta.json()
+    } catch (erro) {
+        console.error('Ocorreu um erro na busca de colaborador:', erro)
+        throw erro
+    }
+
+}
+
+
+const postColaborador = async (dados) => {
     const url = urlBase + 'colaboradores'
 
     const resposta = await fetch(url, {
@@ -233,7 +275,7 @@ const postCollaborator = async (dados) => {
     return await resposta.json()
 }
 
-const deleteCollaborator = async (id, dados) => {
+const putColaboradorAtivo = async (id, dados) => {
     const url = urlBase + `colaboradores/${id}/ativo`
 
     const resposta = await fetch(url, {
@@ -243,7 +285,24 @@ const deleteCollaborator = async (id, dados) => {
         },
         body: JSON.stringify(dados)
     })
-    if (!resposta.dados) {
+    if (!resposta.ok) {
+        throw new Error(`Erro ao excluir colaborador: ${resposta.statusText}`)
+    }
+
+    return resposta.json()
+}
+
+const putColaborador = async (id, dados) => {
+    const url = urlBase + `colaboradores/${id}`
+
+    const resposta = await fetch(url, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(dados)
+    })
+    if (!resposta.ok) {
         throw new Error(`Erro ao excluir colaborador: ${resposta.statusText}`)
     }
 
@@ -251,35 +310,40 @@ const deleteCollaborator = async (id, dados) => {
 }
 
 // Notificação de alerta DELETADO
-$('.btn-danger').click(function () {
+function alertaDeletadoSucesso() {
     $('.alert-del').addClass("show");
     $('.alert-del').removeClass("hide");
     $('.alert-del').addClass("showAlert");
     setTimeout(function () {
         $('.alert-del').removeClass("show");
         $('.alert-del').addClass("hide");
+        $('.alert-del').removeClass("showAlert");
+        window.location.reload()
     }, 5000);
-});
+};
+
 $('.close-btn-del').click(function () {
     $('.alert-del').removeClass("show");
     $('.alert-del').addClass("hide");
 });
 
 // Notificação de alerta CADASTRADO OU EDITADO
-$('.btn-save').click(function () {
+function alertaSucesso() {
     $('.alert-reg').addClass("show");
     $('.alert-reg').removeClass("hide");
     $('.alert-reg').addClass("showAlert");
     setTimeout(function () {
         $('.alert-reg').removeClass("show");
         $('.alert-reg').addClass("hide");
+        closeForm()
     }, 5000);
-});
+};
+
 $('.close-btn-del').click(function () {
     $('.alert-reg').removeClass("show");
     $('.alert-reg').addClass("hide");
 });
 
 document.addEventListener('DOMContentLoaded', () => {
-    listar()
+    listarColaboradores()
 })

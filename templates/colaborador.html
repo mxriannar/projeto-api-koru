@@ -5,7 +5,7 @@
         <section class="table__header">
             <div class="title">
                 <h1>Colaborador</h1>
-                <button class="btn" title="Criar" onclick="openForm()" id="criar">
+                <button class="btn" title="Criar" onclick="openForm(this)" id="criar">
                     <i class="ri-add-circle-fill"></i>
                 </button>
             </div>
@@ -48,11 +48,6 @@
 <div class="wrapper" id="wrapper">
     <form action="" id="formColaborador">
         <h2 class="title" id="title-form"></h2>
-
-      <!--   <div class="text-input">
-            <label for="id">ID</label>
-            <input type="text" name="id" id="id" placeholder="Informe o ID">
-        </div> -->
         <div class="text-input">
             <label for="nome">Nome</label>
             <input type="text" name="nome" id="nome" placeholder="Informe o nome" required>
@@ -71,7 +66,7 @@
         </div>
 
         <div class="buttons">
-            <button type="submit" class="btn-save" onclick="criarColaborador()">Salvar</button>
+            <button type="submit" class="btn-save" id="btn-save">Salvar</button>
             <button class="btn-primary" onclick="closeForm()">Cancelar</button>
         </div>
     </form>
@@ -82,7 +77,7 @@
     <h2>Cuidado!</h2>
     <p>Tem certeza que deseja deletar esse colaborador?</p>
     <button class="btn-primary" type="button" onclick="closePopup()">Cancelar</button>
-    <button class="btn-danger" type="button" onclick="deletar()">Deletar</button>
+    <button class="btn-danger" type="button" onclick="deletarColaborador()">Deletar</button>
 </div>
 
 <div class="alert alert-reg">
