@@ -1,11 +1,10 @@
 
 const tbody = document.getElementById('tbody')
 const formColaborador = document.getElementById('formColaborador')
-
-let popup = document.getElementById('popup');
-let blur = document.getElementById('blur');
-let popForm = document.getElementById('wrapper');
-let criar = document.getElementById('criar')
+let popup = document.getElementById('popup'),
+    blur = document.getElementById('blur'),
+    popForm = document.getElementById('wrapper'),
+    criar = document.getElementById('criar');
 
 // Popup botão cancelar
 function openPopup(id) {
