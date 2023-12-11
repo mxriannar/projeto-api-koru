@@ -14,6 +14,18 @@
                 <input type="search" name="search" id="search" placeholder="Pesquisar..." onkeyup="filterTable()">
                 <i class="ri-search-line"></i>
             </div>
+
+            <!-- TODO: adicionar funcionalidade -->
+            <div class="input-search">
+                <input type="radio" name="search" id="ativo">
+                <label for="ativo">Ativo</label>
+                
+                <input type="radio" name="search" id="inativo">
+                <label for="inativo">Inativo</label>
+
+                <input type="radio" name="search" id="todos" checked>
+                <label for="todos">Todos</label>
+            </div>
         </section>
         <section class="table__body">
             <table class="table-sortable" id="table-sortable">

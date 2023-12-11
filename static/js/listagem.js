@@ -1,6 +1,6 @@
 
-const tbody = document.getElementById('tbody')
-const formLider = document.getElementById('formLider')
+const tbody = document.getElementById('tbody');
+const formLider = document.getElementById('formLider');
 let popup = document.getElementById('popup'),
     blur = document.getElementById('blur'),
     popForm = document.getElementById('wrapper'),
