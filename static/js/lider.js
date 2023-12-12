@@ -121,8 +121,9 @@ document.querySelectorAll('.table-sortable th').forEach(headerCell => {
 function listar() {
     getLideres()
         .then((data) => {
+            const lideresAtivos = filtrarPorAtivo(data, 1) // filtra por ativos 1 = ativo, 0 = inativo
             tbody.innerHTML = ``
-            data.forEach((item) => {
+            lideresAtivos.forEach((item) => {
                 const tr = document.createElement('tr');
                 tr.innerHTML = `
                     <td>${item.id}</td>
@@ -209,90 +210,6 @@ function editarLider(id) {
     })
 }
 
-//SERVICES
-
-const urlBase = `http://localhost:5000/`
-
-const getLideres = async () => {
-    const url = urlBase + 'lideres'
-
-    try {
-        const resposta = await fetch(url, {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        })
-        return await resposta.json()
-    } catch (erro) {
-        console.error('Ocorreu um erro na busca de líderes:', erro)
-        throw erro
-    }
-}
-
-const getLider = async (id) => {
-    const url = urlBase + `lideres/${id}`
-    try {
-        const resposta = await fetch(url, {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        })
-        return await resposta.json()
-    } catch (erro) {
-        console.error('Ocorreu um erro na busca de lideres:', erro)
-        throw erro
-    }
-}
-
-
-const postLider = async (dados) => {
-    const url = urlBase + 'lideres'
-
-    const resposta = await fetch(url, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(dados)
-    })
-    return await resposta.json()
-}
-
-const putLiderAtivo = async (id, dados) => {
-    const url = urlBase + `lideres/${id}/ativo`
-
-    const resposta = await fetch(url, {
-        method: 'PUT',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(dados)
-    })
-    if (!resposta.ok) {
-        throw new Error(`Erro ao excluir líder: ${resposta.statusText}`)
-    }
-    return resposta.json()
-}
-
-const putLider = async (id, dadosAtualizados) => {
-    const url = urlBase + `lideres/${id}`
-
-    const resposta = await fetch(url, {
-        method: 'PUT',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(dadosAtualizados)
-    })
-
-    if (!resposta.ok) {
-        throw new Error(`Erro ao editar líder: ${resposta.statusText}`)
-    }
-    return resposta.json()
-}
-
 // TODO: arrumar tempo de atualização da página para mostrar a notificação
 // Notificação de alerta DELETADO
 function alertaDeletadoSucesso() {
@@ -330,6 +247,10 @@ $('.close-btn-del').click(function () {
     $('.alert-reg').removeClass("showAlert");
     $('.alert-reg').addClass("hide");
 });
+
+function filtrarPorAtivo(lista, ativoFiltrado) {
+    return lista.filter(leader => leader.ativo === ativoFiltrado)
+}
 
 document.addEventListener('DOMContentLoaded', () => {
     listar()
