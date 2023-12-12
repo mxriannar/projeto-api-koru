@@ -8,7 +8,9 @@ let popup = document.getElementById('popup'),
     filter = input.value.toLowerCase(),
     table = document.getElementById("table-sortable"),
     rows = table.getElementsByTagName("tr"),
-    btnSalvar = document.getElementById('btn-save')
+    btnSalvar = document.getElementById('btn-save'),
+    criar = document.getElementById('criar');
+
 
 // Popup botão cancelar
 function openPopup(id) {

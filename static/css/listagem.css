@@ -23,7 +23,7 @@ body {
 
 .card {
     width: 90%;
-    max-width: 600px;
+    max-width: 800px;
     height: 70vh;
 }
 
@@ -83,6 +83,7 @@ table td {
 }
 
 .table__header {
+    width: 100%;
     height: 10%;
     background-color: #fff4;
     padding: 1.5rem;
@@ -222,6 +223,11 @@ table td {
     .container {
         width: 90%;
     }
+
+    .table__header {
+        height: auto;
+        gap: 10px;
+    }
 }
 
 
@@ -235,6 +241,10 @@ table td {
         width: 80%;
     }
 
+    .table__header {
+        flex-direction: column;
+    }
+
     .table__header .input-group {
         width: 60%;
     }
@@ -244,7 +254,7 @@ table td {
     }
 
     h1 {
-        font-size: 1.8rem;
+        font-size: 2.0rem;
     }
 
     table thead tr {
