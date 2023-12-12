@@ -1,8 +1,13 @@
 const tbody = document.getElementById('tbody')
-let popForm = document.getElementById('wrapper'),
+const formLider = document.getElementById('formLider')
+let popup = document.getElementById('popup'),
     blur = document.getElementById('blur'),
+    popForm = document.getElementById('wrapper'),
+    input = document.getElementById("search"),
+    filter = input.value.toLowerCase(),
+    table = document.getElementById("table-sortable"),
+    rows = table.getElementsByTagName("tr"),
     btnSalvar = document.getElementById('btn-save')
-
 function openForm(button, id) {
     const buttonID = button.id
     popForm.classList.add('open-wrapper')
@@ -35,17 +40,20 @@ function closePopup() {
 }
 
 function listarReuniao() {
+
     getReunioes()
         .then((data) => {
             tbody.innerHTML = ``
             data.forEach((item) => {
                 const tr = document.createElement('tr')
                 apenasData = item.data.split(' ')[0]
+                const dataFormatada = formatarDataParaDDMMAA(apenasData)
+
                 tr.innerHTML = `
                     <td>${item.id}</td>
                     <td>${item.lider.nome}</td>
                     <td>${item.colaborador.nome}</td>
-                    <td>${apenasData}</td>
+                    <td>${dataFormatada}</td>
                     <td>
                         <button class="btn" type="button" title="Editar" onclick="openForm(this, ${item.id})" id="editar">
                             <i class="ri-edit-2-fill"></i>
@@ -67,8 +75,42 @@ function listarReuniao() {
 }
 
 function criarReuniao() {
+
+    getLideres()
+        .then((data) => {
+            if (data) {
+                const lideresAtivos = filtrarPorAtivo(data, 1) // filtra por ativos 1 = ativo, 0 = inativo
+                const selectLider = document.getElementById('id_lider')
+                lideresAtivos.forEach(element => {
+                    const option = document.createElement('option')
+                    option.setAttribute('value', element.id)
+                    option.textContent = element.nome
+                    selectLider.appendChild(option)
+                })
+            } else {
+                console.log('Sem dados', data)
+            }
+        })
+
+    getColaboradores()
+        .then((data) => {
+            if (data) {
+                const colaboradoresAtivos = filtrarPorAtivo(data, 1) // filtra por ativos 1 = ativo, 0 = inativo
+                const selectColaborador = document.getElementById('id_colaborador')
+                colaboradoresAtivos.forEach(element => {
+                    const option = document.createElement('option')
+                    option.setAttribute('value', element.id)
+                    option.textContent = element.nome
+                    selectColaborador.appendChild(option)
+                })
+            } else {
+                console.log('Sem dados', data)
+            }
+        })
+
     formReuniao.addEventListener('submit', (e) => {
         e.preventDefault()
+
         const fd = new FormData(formReuniao)
         const dadosFormulario = Object.fromEntries(fd)
 
@@ -91,6 +133,8 @@ function editarReuniao(id) {
             const elemento = data.find(objeto => objeto.id === id) //buscar um objeto dentro de uma array de objetos
             const dataBD = elemento.data
             const somenteData = dataBD.split(' ')[0] // exibe somente data
+            formatarDataParaDDMMAA(somenteData)
+
             document.getElementById('id_lider').value = elemento.id_lider;
             document.getElementById('id_colaborador').value = elemento.id_colaborador;
             document.getElementById('data').value = somenteData;
@@ -129,87 +173,17 @@ function deletarReuniao() {
         })
 }
 
-//ENDPOINTS
-const urlBase = `http://localhost:5000/`
-const getReunioes = async () => {
-    const url = urlBase + 'reunioes'
+function formatarDataParaDDMMAA(dataString) {
+    const partes = dataString.split('-');
+    const ano = partes[0].slice(-2);
+    const mes = partes[1];
+    const dia = partes[2];
 
-    try {
-        const resposta = await fetch(url, {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        })
-        return await resposta.json()
-    } catch (erro) {
-        console.error('Ocorreu um erro na busca de reunioes:', erro)
-        throw erro
-    }
+    return `${dia}/${mes}/${ano}`;
 }
 
-const getReuniao = async (id) => {
-    const url = urlBase + 'reunioes'
-
-    try {
-        const resposta = await fetch(url, {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        })
-        return await resposta.json()
-    } catch (error) {
-        console.error('Ocorreu um erro na busca de reunioes:', erro)
-        throw erro
-    }
-}
-
-const postReuniao = async (dados) => {
-    const url = urlBase + 'reunioes'
-
-    const resposta = await fetch(url, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(dados)
-    }
-    )
-    return await resposta.json()
-
-}
-
-const putReuniaoAtivo = async (id, dados) => {
-    const url = urlBase + `reunioes/${id}/ativo`
-
-    const resposta = await fetch(url, {
-        method: 'PUT',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(dados)
-    })
-    if (!resposta.ok) {
-        throw new Error(`Erro ao excluir líder: ${resposta.statusText}`)
-    }
-    return resposta.json()
-}
-
-const putReuniao = async (id, dados) => {
-    const url = urlBase + `reunioes/${id}`
-
-    const resposta = await fetch(url, {
-        method: 'PUT',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(dados)
-    })
-    if (!resposta.ok) {
-        throw new Error(`Erro ao editar reuniao: ${resposta.statusText}`)
-    }
-    return resposta.json()
+function filtrarPorAtivo(lista, ativoFiltrado) {
+    return lista.filter(leader => leader.ativo === ativoFiltrado)
 }
 
 // Notificação de alerta DELETADO
@@ -244,4 +218,5 @@ function alertaSucesso() {
 
 document.addEventListener('DOMContentLoaded', () => {
     listarReuniao()
+    getLideres()
 })
