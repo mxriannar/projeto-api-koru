@@ -40,11 +40,11 @@
 
         <div class="text-input">
             <label for="id_lider">Líder</label>
-            <input type="text" name="id_lider" id="id_lider" placeholder="Informe o ID do líder" required>
+            <select type="text" name="id_lider" id="id_lider"></select>
         </div>
         <div class="text-input">
             <label for="id_colaborador">Colaborador</label>
-            <input type="text" name="id_colaborador" id="id_colaborador" placeholder="Informe o ID do colaborador" required>
+            <select type="text" name="id_colaborador" id="id_colaborador"></select>
         </div>
         <div class="text-input">
             <label for="data">Data</label>
@@ -84,5 +84,8 @@
 </div>
 
 <script src="{{ url_for('static', filename='js/reuniao.js')}}"></script>
+<script src="{{ url_for('static', filename='js/lider.service.js')}}"></script>
+<script src="{{ url_for('static', filename='js/colaborador.service.js')}}"></script>
+<script src="{{ url_for('static', filename='js/reuniao.service.js')}}"></script>
 
 {% endblock %}
