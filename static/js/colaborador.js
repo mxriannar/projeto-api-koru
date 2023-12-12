@@ -132,8 +132,9 @@ document.querySelectorAll('.table-sortable th').forEach(headerCell => {
 function listarColaboradores() {
     getColaboradores()
         .then((data) => {
+            const colaboradoresAtivos = filtrarPorAtivo(data, 1) // Filtra colaboradores ativos
             tbody.innerHTML = ''
-            data.forEach((item) => {
+            colaboradoresAtivos.forEach((item) => {
                 const tr = document.createElement('tr');
                 tr.innerHTML = `
                     <td>${item.id}</td>
@@ -220,93 +221,6 @@ function editarColaborador(id) {
     })
 }
 
-
-//SERVICES
-
-const urlBase = `http://localhost:5000/`
-
-const getColaboradores = async () => {
-    const url = urlBase + 'colaboradores'
-
-    try {
-        const resposta = await fetch(url, {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        })
-        return await resposta.json()
-    } catch (erro) {
-        console.error('Ocorreu um erro na busca de colaboradores:', erro)
-    }
-}
-
-const getColaborador = async (id) => {
-    const url = urlBase + `colaboradores/${id}`
-
-    try {
-        const resposta = await fetch(url, {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        })
-        return await resposta.json()
-    } catch (erro) {
-        console.error('Ocorreu um erro na busca de colaborador:', erro)
-        throw erro
-    }
-
-}
-
-
-const postColaborador = async (dados) => {
-    const url = urlBase + 'colaboradores'
-
-    const resposta = await fetch(url, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(dados)
-    })
-    return await resposta.json()
-}
-
-const putColaboradorAtivo = async (id, dados) => {
-    const url = urlBase + `colaboradores/${id}/ativo`
-
-    const resposta = await fetch(url, {
-        method: 'PUT',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(dados)
-    })
-    if (!resposta.ok) {
-        throw new Error(`Erro ao excluir colaborador: ${resposta.statusText}`)
-    }
-
-    return resposta.json()
-}
-
-const putColaborador = async (id, dados) => {
-    const url = urlBase + `colaboradores/${id}`
-
-    const resposta = await fetch(url, {
-        method: 'PUT',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(dados)
-    })
-    if (!resposta.ok) {
-        throw new Error(`Erro ao excluir colaborador: ${resposta.statusText}`)
-    }
-
-    return resposta.json()
-}
-
 // Notificação de alerta DELETADO
 function alertaDeletadoSucesso() {
     $('.alert-del').addClass("show");
@@ -341,6 +255,10 @@ $('.close-btn-del').click(function () {
     $('.alert-reg').removeClass("show");
     $('.alert-reg').addClass("hide");
 });
+
+function filtrarPorAtivo(lista, ativoFiltrado) {
+    return lista.filter(leader => leader.ativo === ativoFiltrado)
+}
 
 document.addEventListener('DOMContentLoaded', () => {
     listarColaboradores()
