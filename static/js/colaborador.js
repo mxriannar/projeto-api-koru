@@ -1,6 +1,7 @@
 
 const tbody = document.getElementById('tbody')
 const formColaborador = document.getElementById('formColaborador')
+const inputRadio = document.getElementsByName('radioButton');
 let popup = document.getElementById('popup'),
     blur = document.getElementById('blur'),
     popForm = document.getElementById('wrapper'),
@@ -132,34 +133,65 @@ document.querySelectorAll('.table-sortable th').forEach(headerCell => {
 })
 
 function listarColaboradores() {
+
+    if (inputRadio) {
+        inputRadio.forEach((element) => {
+            if (element.id === 'ativo') {
+                getColaboradoresAtivos()
+            }
+        })
+    }
     getColaboradores()
         .then((data) => {
-            tbody.innerHTML = ''
-            data.forEach((item) => {
-                const tr = document.createElement('tr');
-                tr.innerHTML = `
-                    <td>${item.id}</td>
-                    <td>${item.nome}</td>
-                    <td>${item.departamento}</td>
-                    <td>${item.email}</td>
-                    <td>
-                    <button class="btn" type="button" title="Editar" onclick="openForm(this, ${item.id})" id="editar">
-                        <i class="ri-edit-2-fill"></i>
-                    </button>
-                </td>
-                <td>
-                    <button class="btn" type="submit" title="Deletar" onclick="openPopup(${item.id})">
-                        <i class="ri-delete-bin-2-fill"></i>
-                    </button>
-                </td>
-                `
-                tbody.appendChild(tr)
+            inputArray = Array.from(inputRadio)
+            inputArray.forEach((element) => {
+                element.addEventListener('click', () => {
+                    if (element.checked) {
+                        let idSelecionado = element.id
+                        const colaboradoresFiltrados = filtrarPorAtivo(data, idSelecionado)
+                        renderizarTabela(colaboradoresFiltrados)
+                    }
+
+                })
             })
 
         })
         .catch((erro) => {
             console.log(erro)
         })
+}
+
+function getColaboradoresAtivos() {
+    getColaboradores()
+        .then((data) => {
+            const colaboradoresAtivos = data.filter(colaborador => colaborador.ativo === 1) // Filtra colaboradores ativos
+            renderizarTabela(colaboradoresAtivos)
+        })
+}
+
+function renderizarTabela(lista) {
+    console.log(lista)
+    tbody.innerHTML = ''
+    lista.forEach((item) => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+            <td>${item.id}</td>
+            <td>${item.nome}</td>
+            <td>${item.departamento}</td>
+            <td>${item.email}</td>
+            <td>
+            <button class="btn" type="button" title="Editar" onclick="openForm(this, ${item.id})" id="editar">
+                <i class="ri-edit-2-fill"></i>
+            </button>
+        </td>
+        <td>
+            <button class="btn" type="submit" title="Deletar" onclick="openPopup(${item.id})">
+                <i class="ri-delete-bin-2-fill"></i>
+            </button>
+        </td>
+        `
+        tbody.appendChild(tr)
+    })
 }
 
 function deletarColaborador() {
@@ -222,93 +254,6 @@ function editarColaborador(id) {
     })
 }
 
-
-//SERVICES
-
-const urlBase = `http://localhost:5000/`
-
-const getColaboradores = async () => {
-    const url = urlBase + 'colaboradores'
-
-    try {
-        const resposta = await fetch(url, {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        })
-        return await resposta.json()
-    } catch (erro) {
-        console.error('Ocorreu um erro na busca de colaboradores:', erro)
-    }
-}
-
-const getColaborador = async (id) => {
-    const url = urlBase + `colaboradores/${id}`
-
-    try {
-        const resposta = await fetch(url, {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        })
-        return await resposta.json()
-    } catch (erro) {
-        console.error('Ocorreu um erro na busca de colaborador:', erro)
-        throw erro
-    }
-
-}
-
-
-const postColaborador = async (dados) => {
-    const url = urlBase + 'colaboradores'
-
-    const resposta = await fetch(url, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(dados)
-    })
-    return await resposta.json()
-}
-
-const putColaboradorAtivo = async (id, dados) => {
-    const url = urlBase + `colaboradores/${id}/ativo`
-
-    const resposta = await fetch(url, {
-        method: 'PUT',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(dados)
-    })
-    if (!resposta.ok) {
-        throw new Error(`Erro ao excluir colaborador: ${resposta.statusText}`)
-    }
-
-    return resposta.json()
-}
-
-const putColaborador = async (id, dados) => {
-    const url = urlBase + `colaboradores/${id}`
-
-    const resposta = await fetch(url, {
-        method: 'PUT',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(dados)
-    })
-    if (!resposta.ok) {
-        throw new Error(`Erro ao excluir colaborador: ${resposta.statusText}`)
-    }
-
-    return resposta.json()
-}
-
 // Notificação de alerta DELETADO
 function alertaDeletadoSucesso() {
     $('.alert-del').addClass("show");
@@ -343,6 +288,18 @@ $('.close-btn-del').click(function () {
     $('.alert-reg').removeClass("show");
     $('.alert-reg').addClass("hide");
 });
+
+function filtrarPorAtivo(lista, ativoFiltrado) {
+    // Se 'todos' estiver selecionado, retorna a lista completa
+    if (ativoFiltrado === 'todos') {
+        return lista;
+    }
+
+    // Converte o ID para o valor esperado (1 ou 0)
+    const valorAtivoFiltrado = ativoFiltrado === 'ativo' ? 1 : 0;
+
+    return lista.filter(leader => leader.ativo === valorAtivoFiltrado);
+}
 
 document.addEventListener('DOMContentLoaded', () => {
     listarColaboradores()
