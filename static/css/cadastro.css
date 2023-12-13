@@ -52,7 +52,8 @@ form {
     margin: 5px 0;
 }
 
-.text-input input {
+.text-input input,
+.text-input select {
     background: none;
     border: none;
     outline: none;
