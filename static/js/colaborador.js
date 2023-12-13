@@ -1,6 +1,7 @@
 
 const tbody = document.getElementById('tbody')
 const formColaborador = document.getElementById('formColaborador')
+const inputRadio = document.getElementsByName('radioButton');
 let popup = document.getElementById('popup'),
     blur = document.getElementById('blur'),
     popForm = document.getElementById('wrapper'),
@@ -132,35 +133,65 @@ document.querySelectorAll('.table-sortable th').forEach(headerCell => {
 })
 
 function listarColaboradores() {
+
+    if (inputRadio) {
+        inputRadio.forEach((element) => {
+            if (element.id === 'ativo') {
+                getColaboradoresAtivos()
+            }
+        })
+    }
     getColaboradores()
         .then((data) => {
-            const colaboradoresAtivos = filtrarPorAtivo(data, 1) // Filtra colaboradores ativos
-            tbody.innerHTML = ''
-            colaboradoresAtivos.forEach((item) => {
-                const tr = document.createElement('tr');
-                tr.innerHTML = `
-                    <td>${item.id}</td>
-                    <td>${item.nome}</td>
-                    <td>${item.departamento}</td>
-                    <td>${item.email}</td>
-                    <td>
-                    <button class="btn" type="button" title="Editar" onclick="openForm(this, ${item.id})" id="editar">
-                        <i class="ri-edit-2-fill"></i>
-                    </button>
-                </td>
-                <td>
-                    <button class="btn" type="submit" title="Deletar" onclick="openPopup(${item.id})">
-                        <i class="ri-delete-bin-2-fill"></i>
-                    </button>
-                </td>
-                `
-                tbody.appendChild(tr)
+            inputArray = Array.from(inputRadio)
+            inputArray.forEach((element) => {
+                element.addEventListener('click', () => {
+                    if (element.checked) {
+                        let idSelecionado = element.id
+                        const colaboradoresFiltrados = filtrarPorAtivo(data, idSelecionado)
+                        renderizarTabela(colaboradoresFiltrados)
+                    }
+
+                })
             })
 
         })
         .catch((erro) => {
             console.log(erro)
         })
+}
+
+function getColaboradoresAtivos() {
+    getColaboradores()
+        .then((data) => {
+            const colaboradoresAtivos = data.filter(colaborador => colaborador.ativo === 1) // Filtra colaboradores ativos
+            renderizarTabela(colaboradoresAtivos)
+        })
+}
+
+function renderizarTabela(lista) {
+    console.log(lista)
+    tbody.innerHTML = ''
+    lista.forEach((item) => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+            <td>${item.id}</td>
+            <td>${item.nome}</td>
+            <td>${item.departamento}</td>
+            <td>${item.email}</td>
+            <td>
+            <button class="btn" type="button" title="Editar" onclick="openForm(this, ${item.id})" id="editar">
+                <i class="ri-edit-2-fill"></i>
+            </button>
+        </td>
+        <td>
+            <button class="btn" type="submit" title="Deletar" onclick="openPopup(${item.id})">
+                <i class="ri-delete-bin-2-fill"></i>
+            </button>
+        </td>
+        `
+        tbody.appendChild(tr)
+    })
 }
 
 function deletarColaborador() {
@@ -259,7 +290,15 @@ $('.close-btn-del').click(function () {
 });
 
 function filtrarPorAtivo(lista, ativoFiltrado) {
-    return lista.filter(leader => leader.ativo === ativoFiltrado)
+    // Se 'todos' estiver selecionado, retorna a lista completa
+    if (ativoFiltrado === 'todos') {
+        return lista;
+    }
+
+    // Converte o ID para o valor esperado (1 ou 0)
+    const valorAtivoFiltrado = ativoFiltrado === 'ativo' ? 1 : 0;
+
+    return lista.filter(leader => leader.ativo === valorAtivoFiltrado);
 }
 
 document.addEventListener('DOMContentLoaded', () => {
