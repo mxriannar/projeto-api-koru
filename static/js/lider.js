@@ -1,6 +1,7 @@
 
 const tbody = document.getElementById('tbody');
 const formLider = document.getElementById('formLider');
+const inputRadio = document.getElementsByName('radioButton');
 let popup = document.getElementById('popup'),
     blur = document.getElementById('blur'),
     popForm = document.getElementById('wrapper'),
@@ -9,6 +10,7 @@ let popup = document.getElementById('popup'),
     table = document.getElementById("table-sortable"),
     rows = table.getElementsByTagName("tr"),
     btnSalvar = document.getElementById('btn-save')
+
 
 // Popup botão cancelar
 function openPopup(id) {
@@ -119,36 +121,72 @@ document.querySelectorAll('.table-sortable th').forEach(headerCell => {
 })
 
 function listar() {
+    // Obtém os líderes ativos inicialmente
+    if (inputRadio) {
+        inputRadio.forEach((element) => {
+            if (element.id === 'ativo') {
+                getLideresAtivos();
+
+            }
+        });
+    }
     getLideres()
         .then((data) => {
-            const lideresAtivos = filtrarPorAtivo(data, 1) // filtra por ativos 1 = ativo, 0 = inativo
-            tbody.innerHTML = ``
-            lideresAtivos.forEach((item) => {
-                const tr = document.createElement('tr');
-                tr.innerHTML = `
-                    <td>${item.id}</td>
-                    <td>${item.nome}</td>
-                    <td>${item.departamento}</td>
-                    <td>${item.email}</td>
-                    <td>
-                        <button class="btn" type="button" title="Editar" onclick="openForm(this, ${item.id})" id="editar">
-                            <i class="ri-edit-2-fill"></i>
-                        </button>
-                    </td>
-                    <td>
-                        <button class="btn" type="submit" title="Deletar" onclick="openPopup(${item.id})">
-                            <i class="ri-delete-bin-2-fill"></i>
-                        </button>
-                    </td>
-                `
-                tbody.appendChild(tr)
-            })
-
+            // Adiciona os ouvintes de clique aos radio buttons
+            inputArray = Array.from(inputRadio);
+            inputArray.forEach((element) => {
+                element.addEventListener('click', () => {
+                    if (element.checked) {
+                        let idSelecionado = element.id;
+                        // Obtém a lista filtrada com base no radio button selecionado
+                        const lideresFiltrados = filtrarPorAtivo(data, idSelecionado);
+                        // Renderiza a tabela com os líderes filtrados
+                        renderizarTabela(lideresFiltrados);
+                    }
+                });
+            });
         })
         .catch((erro) => {
-            console.log(erro)
-        })
+            console.log(erro);
+        });
 }
+
+function getLideresAtivos() {
+    // Função para obter os líderes ativos
+    return getLideres()  // Supondo que você tenha uma função getLideres
+        .then((data) => {
+            // Filtra os líderes ativos
+            const lideresAtivos = data.filter(leader => leader.ativo === 1);
+            renderizarTabela(lideresAtivos);
+        });
+}
+
+function renderizarTabela(lista) {
+    console.log('Lista de lideres:', lista);
+    // Função para renderizar a tabela com base na lista fornecida
+    tbody.innerHTML = '';
+    lista.forEach((item) => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+            <td>${item.id}</td>
+            <td>${item.nome}</td>
+            <td>${item.departamento}</td>
+            <td>${item.email}</td>
+            <td>
+                <button class="btn" type="button" title="Editar" onclick="openForm(this, ${item.id})" id="editar">
+                    <i class="ri-edit-2-fill"></i>
+                </button>
+            </td>
+            <td>
+                <button class="btn" type="submit" title="Deletar" onclick="openPopup(${item.id})">
+                    <i class="ri-delete-bin-2-fill"></i>
+                </button>
+            </td>
+        `;
+        tbody.appendChild(tr);
+    });
+}
+
 
 function deletar() {
     const id = idDelete
@@ -210,6 +248,18 @@ function editarLider(id) {
     })
 }
 
+
+function filtrarPorAtivo(lista, ativoFiltrado) {
+    // Se 'todos' estiver selecionado, retorna a lista completa
+    if (ativoFiltrado === 'todos') {
+        return lista;
+    }
+
+    // Converte o ID para o valor esperado (1 ou 0)
+    const valorAtivoFiltrado = ativoFiltrado === 'ativo' ? 1 : 0;
+
+    return lista.filter(leader => leader.ativo === valorAtivoFiltrado);
+}
 // TODO: arrumar tempo de atualização da página para mostrar a notificação
 // Notificação de alerta DELETADO
 function alertaDeletadoSucesso() {
@@ -248,9 +298,6 @@ $('.close-btn-del').click(function () {
     $('.alert-reg').addClass("hide");
 });
 
-function filtrarPorAtivo(lista, ativoFiltrado) {
-    return lista.filter(leader => leader.ativo === ativoFiltrado)
-}
 
 document.addEventListener('DOMContentLoaded', () => {
     listar()
