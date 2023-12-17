@@ -1,13 +1,10 @@
-FROM python:3.8
+FROM python:3
 
-RUN python -m venv /venv
+WORKDIR /src
 
-WORKDIR /app
+COPY requirements.txt /src/requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt
 
-COPY . /app/
-
-RUN pip install --upgrade pip
-
-RUN pip install Flask && pip install Flask-Cors
+COPY . .
 
 CMD ["python", "app.py"]
