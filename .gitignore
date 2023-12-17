@@ -1,9 +1,9 @@
 
 *.pyc
-*.pyc
-*.pyc
+*__pycache__
 __pycache__/colaborador.cpython-312.pyc
 __pycache__/colaborador.cpython-312.pyc
 __pycache__/db_connector.cpython-312.pyc
 __pycache__/lider.cpython-312.pyc
 __pycache__/reuniao.cpython-312.pyc
+
