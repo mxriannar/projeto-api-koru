@@ -6,7 +6,6 @@ let popup = document.getElementById('popup'),
     blur = document.getElementById('blur'),
     popForm = document.getElementById('wrapper'),
     input = document.getElementById("search"),
-    filter = input.value.toLowerCase(),
     table = document.getElementById("table-sortable"),
     rows = table.getElementsByTagName("tr"),
     btnSalvar = document.getElementById('btn-save'),
@@ -47,6 +46,7 @@ function closeForm() {
 
 // Filtro de pesquisa
 function filterTable() {
+    const filter = input.value.toLowerCase()
     if (filter != "") {
         for (i = 1; i < rows.length; i++) {
             let cells = rows[i].getElementsByTagName("td"),
