@@ -175,11 +175,11 @@ function renderizarTabela(lista) {
     lista.forEach((item) => {
         const tr = document.createElement('tr');
         tr.innerHTML = `
-            <td>${item.id}</td>
-            <td>${item.nome}</td>
-            <td>${item.departamento}</td>
-            <td>${item.email}</td>
-            <td>
+            <td data-title="ID">${item.id}</td>
+            <td data-title="Nome">${item.nome}</td>
+            <td data-title="Setor">${item.departamento}</td>
+            <td data-title="E-mail">${item.email}</td>
+            <td data-title="Ações">
             <button class="btn" type="button" title="Editar" onclick="openForm(this, ${item.id})" id="editar">
                 <i class="ri-edit-2-fill"></i>
             </button>

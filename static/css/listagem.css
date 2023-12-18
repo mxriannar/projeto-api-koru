@@ -54,8 +54,21 @@ table td {
     text-align: center;
 }
 
+.table-sortable .th-id {
+    width: 50px;
+}
+
+.table-sortable .th-name {
+    width: 200px;
+}
+
+.table-sortable .th-action {
+    width: auto;
+}
+
 .table-sortable th {
     cursor: pointer;
+    width: 150px;
 }
 
 .table-sortable .th-sort-asc:not(:last-child)::after {

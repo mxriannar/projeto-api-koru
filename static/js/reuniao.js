@@ -127,11 +127,11 @@ function listarReuniao() {
                 const dataFormatada = formatarDataParaDDMMAA(apenasData)
 
                 tr.innerHTML = `
-                    <td>${item.id}</td>
-                    <td>${item.lider.nome}</td>
-                    <td>${item.colaborador.nome}</td>
-                    <td>${dataFormatada}</td>
-                    <td>
+                    <td data-title="ID">${item.id}</td>
+                    <td data-title="Líder">${item.lider.nome}</td>
+                    <td data-title="Colaborador">${item.colaborador.nome}</td>
+                    <td data-title="Data">${dataFormatada}</td>
+                    <td data-title="Ações">
                         <button class="btn" type="button" title="Editar" onclick="openForm(this, ${item.id})" id="editar">
                             <i class="ri-edit-2-fill"></i>
                         </button>

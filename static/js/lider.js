@@ -94,7 +94,14 @@ function sortTableByColumn(table, column, asc = true) {
         const aColText = a.querySelector(`td:nth-child(${column + 1})`).textContent.trim();
         const bColText = b.querySelector(`td:nth-child(${column + 1})`).textContent.trim();
 
-        return aColText > bColText ? (1 * dirModifier) : (-1 * dirModifier);
+        if (column == 0) {
+            const aColValue = parseInt(aColText);
+            const bColValue = parseInt(bColText);
+            return aColValue > bColValue ? (1 * dirModifier) : (-1 * dirModifier);
+        }
+        else {
+            return aColText > bColText ? (1 * dirModifier) : (-1 * dirModifier);
+        }
     })
 
     // Remove todos os TRs existentes da tabela
@@ -126,7 +133,7 @@ function listar() {
         .then((data) => {
             const lideresAtivos = data.filter(leader => leader.ativo === 1);
             renderizarTabela(lideresAtivos);
-            
+
             inputArray = Array.from(inputRadio);
             inputArray.forEach((element) => {
                 element.addEventListener('click', () => {
@@ -151,11 +158,11 @@ function renderizarTabela(lista) {
     lista.forEach((item) => {
         const tr = document.createElement('tr');
         tr.innerHTML = `
-            <td>${item.id}</td>
-            <td>${item.nome}</td>
-            <td>${item.departamento}</td>
-            <td>${item.email}</td>
-            <td>
+            <td data-title="ID">${item.id}</td>
+            <td data-title="Nome">${item.nome}</td>
+            <td data-title="Setor">${item.departamento}</td>
+            <td data-title="E-mail">${item.email}</td>
+            <td data-title="Ações">
                 <button class="btn" type="button" title="Editar" onclick="openForm(this, ${item.id})" id="editar">
                     <i class="ri-edit-2-fill"></i>
                 </button>
