@@ -6,10 +6,10 @@ let popup = document.getElementById('popup'),
     blur = document.getElementById('blur'),
     popForm = document.getElementById('wrapper'),
     input = document.getElementById("search"),
-    filter = input.value.toLowerCase(),
     table = document.getElementById("table-sortable"),
     rows = table.getElementsByTagName("tr"),
-    btnSalvar = document.getElementById('btn-save')
+    btnSalvar = document.getElementById('btn-save');
+const btnDeletar = document.getElementById('btnDeletar');
 
 
 // Popup botão cancelar
@@ -46,6 +46,7 @@ function closeForm() {
 
 // Filtro de pesquisa
 function filterTable() {
+    const filter = input.value.toLowerCase()
     if (filter != "") {
         for (i = 1; i < rows.length; i++) {
             let cells = rows[i].getElementsByTagName("td"),
@@ -121,26 +122,17 @@ document.querySelectorAll('.table-sortable th').forEach(headerCell => {
 })
 
 function listar() {
-    // Obtém os líderes ativos inicialmente
-    if (inputRadio) {
-        inputRadio.forEach((element) => {
-            if (element.id === 'ativo') {
-                getLideresAtivos();
-
-            }
-        });
-    }
     getLideres()
         .then((data) => {
-            // Adiciona os ouvintes de clique aos radio buttons
+            const lideresAtivos = data.filter(leader => leader.ativo === 1);
+            renderizarTabela(lideresAtivos);
+            
             inputArray = Array.from(inputRadio);
             inputArray.forEach((element) => {
                 element.addEventListener('click', () => {
                     if (element.checked) {
                         let idSelecionado = element.id;
-                        // Obtém a lista filtrada com base no radio button selecionado
                         const lideresFiltrados = filtrarPorAtivo(data, idSelecionado);
-                        // Renderiza a tabela com os líderes filtrados
                         renderizarTabela(lideresFiltrados);
                     }
                 });
@@ -151,15 +143,6 @@ function listar() {
         });
 }
 
-function getLideresAtivos() {
-    // Função para obter os líderes ativos
-    return getLideres()  // Supondo que você tenha uma função getLideres
-        .then((data) => {
-            // Filtra os líderes ativos
-            const lideresAtivos = data.filter(leader => leader.ativo === 1);
-            renderizarTabela(lideresAtivos);
-        });
-}
 
 function renderizarTabela(lista) {
     console.log('Lista de lideres:', lista);
@@ -178,7 +161,7 @@ function renderizarTabela(lista) {
                 </button>
             </td>
             <td>
-                <button class="btn" type="submit" title="Deletar" onclick="openPopup(${item.id})">
+                <button class="btn" type="submit" title="Deletar" id="btnDeletar" onclick="openPopup(${item.id})">
                     <i class="ri-delete-bin-2-fill"></i>
                 </button>
             </td>
@@ -249,16 +232,15 @@ function editarLider(id) {
 }
 
 
-function filtrarPorAtivo(lista, ativoFiltrado) {
-    // Se 'todos' estiver selecionado, retorna a lista completa
-    if (ativoFiltrado === 'todos') {
-        return lista;
+function filtrarPorAtivo(data, idSelecionado) {
+    switch (idSelecionado) {
+        case 'ativo':
+            return data.filter(leader => leader.ativo === 1);
+        case 'inativo':
+            return data.filter(leader => leader.ativo === 0);
+        default:
+            return data;
     }
-
-    // Converte o ID para o valor esperado (1 ou 0)
-    const valorAtivoFiltrado = ativoFiltrado === 'ativo' ? 1 : 0;
-
-    return lista.filter(leader => leader.ativo === valorAtivoFiltrado);
 }
 // TODO: arrumar tempo de atualização da página para mostrar a notificação
 // Notificação de alerta DELETADO

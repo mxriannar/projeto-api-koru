@@ -1,4 +1,34 @@
-function showLogin(){
+const formNovaConta = document.getElementById("new-account")
+
+function criarConta() {
+
+    const fd = new FormData(formNovaConta)
+    const dadosFormulario = Object.fromEntries(fd)
+
+    postLogin(dadosFormulario)
+    .then(() => {
+        showLogin()
+        })
+        .catch((erro) => {
+            console.log(erro)
+        })
+
+}
+
+function validarLogin() {
+
+    const fd = new FormData(formNovaConta)
+    const dadosFormulario = Object.fromEntries(fd)
+
+    try {
+        
+    } catch (error) {
+        
+    }
+}
+
+
+function showLogin() {
     const login = document.querySelector('.login')
     login.style.display = 'flex'
 
@@ -9,7 +39,7 @@ function showLogin(){
     forgot.style.display = 'none'
 }
 
-function showCreate(){
+function showCreate() {
     const login = document.querySelector('.login')
     login.style.display = 'none'
 
@@ -20,7 +50,7 @@ function showCreate(){
     forgot.style.display = 'none'
 }
 
-function showForgot(){
+function showForgot() {
     const login = document.querySelector('.login')
     login.style.display = 'none'
 

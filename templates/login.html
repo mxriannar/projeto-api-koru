@@ -29,34 +29,32 @@
                 <input type="password" placeholder="Password">
             </div>
             <button class="login-btn">Sign In</button>
-            <a onclick=showForgot() href="#" class="forgot">Forgot Password?</a>
+            <!-- <a onclick=showForgot() href="#" class="forgot">Forgot Password?</a> -->
             <div class="create">
-                <a onclick=showCreate() class="btn" href="#">Sign Up</a>
+                <a onclick=showCreate() class="btn" href="#">Cadastre-se</a>
                 <i class="ri-arrow-right-fill"></i>
             </div>
         </div>
 
         <div class="new-account">
-            <h3 class="title">Create Account</h3>
-            <div class="text-input">
-                <i class="ri-user-fill"></i>
-                <input type="text" placeholder="Username">
-            </div>
-            <div class="text-input">
-                <i class="ri-mail-fill"></i>
-                <input type="text" placeholder="Email">
-            </div>
-            <div class="text-input">
-                <i class="ri-lock-fill"></i>
-                <input type="password" placeholder="Password">
-            </div>
-            <button class="login-btn">Sign Up</button>
-            <div class="create">
-                <a onclick=showLogin() class="btn" href="#">Sign In</a>
-                <i class="ri-arrow-right-fill"></i>
-            </div>
+            <form action="" id="new-account">
+                <h3 class="title">Criar Conta</h3>
+                <div class="text-input">
+                    <i class="ri-user-fill"></i>
+                    <input type="text" name="usuario" id="usuario" placeholder="Username">
+                </div>
+                <div class="text-input">
+                    <i class="ri-lock-fill"></i>
+                    <input type="password" name="senha" id="senha" placeholder="Password">
+                </div>
+                <button type="button" class="login-btn" onclick="criarConta()">Cadastrar</button>
+                <div class="create">
+                    <a onclick=showLogin() class="btn" href="#">Logar</a>
+                    <i class="ri-arrow-right-fill"></i>
+                </div>
+            </form>
         </div>
-
+<!-- 
         <div class="forgot-password">
             <h3 class="title">Reset Password</h3>
             <div class="text-input">
@@ -68,10 +66,31 @@
                 <a onclick=showLogin() class="btn" href="#">Sign In</a>
                 <i class="ri-arrow-right-fill"></i>
             </div>
-        </div>
+        </div> -->
     </div>
 
+    <section>
+        <h1>Login</h1>
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <ul>
+                    {% for message in messages %}
+                        <li style="color: red;">{{ message }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        {% endwith %}
+        <form method="post" action="{{ url_for('login') }}">
+            {{ form.csrf_token }}
+            {{ form.hidden_tag() }}
+            <p>{{ form.username.label }}<br>{{ form.username(size=32) }}</p>
+            <p>{{ form.password.label }}<br>{{ form.password(size=32) }}</p>
+            <p>{{ form.submit() }}</p>
+        </form>
+    </section>
+
     <script src="{{url_for('static', filename='js/login.js')}}"></script>
+    <script src="{{url_for('static', filename='js/login.service.js')}}"></script>
 </body>
 
 </html>
