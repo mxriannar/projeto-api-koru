@@ -271,7 +271,7 @@ function alertaDeletadoSucesso() {
         $('.alert-del').addClass("hide");
         $('.alert-del').removeClass("showAlert");
         window.location.reload()
-    }, 5000);
+    }, 3000);
 };
 
 $('.close-btn-del').click(function () {
@@ -288,7 +288,7 @@ function alertaSucesso() {
         $('.alert-reg').removeClass("show");
         $('.alert-reg').addClass("hide");
         closeForm()
-    }, 5000);
+    }, 3000);
 };
 
 $('.close-btn-del').click(function () {
