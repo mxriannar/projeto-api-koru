@@ -1,9 +1,11 @@
 const urlBase = `http://localhost:5000/`
 
-const postLogin = async (dados) => {
-    const url = urlBase + 'loginCreate'
+const getLogin = async (dados) => {
+    console.log(dados)
+
+    const url = urlBase + 'login'
     const resposta = await fetch(url, {
-        method: 'POST',
+        method: 'GET',
         headers: {
             'Content-Type': 'application/json'
         },

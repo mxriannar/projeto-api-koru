@@ -28,7 +28,7 @@
                 <i class="ri-lock-fill"></i>
                 <input type="password" placeholder="Password">
             </div>
-            <button class="login-btn">Sign In</button>
+            <button class="login-btn"  onclick="logar()">Sign In</button>
             <!-- <a onclick=showForgot() href="#" class="forgot">Forgot Password?</a> -->
             <div class="create">
                 <a onclick=showCreate() class="btn" href="#">Cadastre-se</a>
@@ -54,7 +54,7 @@
                 </div>
             </form>
         </div>
-<!-- 
+
         <div class="forgot-password">
             <h3 class="title">Reset Password</h3>
             <div class="text-input">
@@ -66,28 +66,10 @@
                 <a onclick=showLogin() class="btn" href="#">Sign In</a>
                 <i class="ri-arrow-right-fill"></i>
             </div>
-        </div> -->
+        </div>
     </div>
 
-    <section>
-        <h1>Login</h1>
-        {% with messages = get_flashed_messages() %}
-            {% if messages %}
-                <ul>
-                    {% for message in messages %}
-                        <li style="color: red;">{{ message }}</li>
-                    {% endfor %}
-                </ul>
-            {% endif %}
-        {% endwith %}
-        <form method="post" action="{{ url_for('login') }}">
-            {{ form.csrf_token }}
-            {{ form.hidden_tag() }}
-            <p>{{ form.username.label }}<br>{{ form.username(size=32) }}</p>
-            <p>{{ form.password.label }}<br>{{ form.password(size=32) }}</p>
-            <p>{{ form.submit() }}</p>
-        </form>
-    </section>
+
 
     <script src="{{url_for('static', filename='js/login.js')}}"></script>
     <script src="{{url_for('static', filename='js/login.service.js')}}"></script>

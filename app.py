@@ -31,10 +31,18 @@ def colaborador():
 def reuniao():
     return render_template("reuniao.html")
 
+# Login
+@app.route("/login", methods=["GET"])
+def create_login():
+    data = request.get_json()
+    lider = Lider(nome = data["nome"], departamento = data["departamento"], email = data["email"], password = data["password"], ativo = "1")
+    lider.save(db.connect())
+    return jsonify(lider.to_dict())
+
 
 # Retornar todos os líderes
 @app.route("/lideres", methods=["GET"])
-def get_lideres():
+def get_login():
     lideres = Lider.get_all(db.connect())
     return jsonify(lideres)
 

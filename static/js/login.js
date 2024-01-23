@@ -1,11 +1,11 @@
 const formNovaConta = document.getElementById("new-account")
 
-function criarConta() {
+function logar() {
 
     const fd = new FormData(formNovaConta)
     const dadosFormulario = Object.fromEntries(fd)
 
-    postLogin(dadosFormulario)
+    getLogin(dadosFormulario)
     .then(() => {
         showLogin()
         })
