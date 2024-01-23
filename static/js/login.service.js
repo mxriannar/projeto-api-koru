@@ -4,8 +4,9 @@ const getLogin = async (dados) => {
     console.log(dados)
 
     const url = urlBase + 'login'
+
     const resposta = await fetch(url, {
-        method: 'GET',
+        method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
